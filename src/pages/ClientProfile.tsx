@@ -1,5 +1,6 @@
-import { ArrowLeft, CalendarPlus, MessageCircle, Sparkles } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+﻿import { ArrowLeft, CalendarPlus, MessageCircle, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ClientProfileTabs from "../components/brc/ClientProfileTabs";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
@@ -7,10 +8,12 @@ import { SectionCard } from "../components/ui/Card";
 import PageHeader from "../components/ui/PageHeader";
 import StatusBadge from "../components/ui/StatusBadge";
 import { clients, commands } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
 import { currency } from "../utils/format";
 
 export default function ClientProfile() {
   const { id } = useParams();
+  const { isPending, runDemoAction } = useDemoAction();
   const client = clients.find((item) => item.id === id) ?? clients[0];
   const clientCommands = commands.filter((command) => command.clientId === client.id);
 
@@ -24,8 +27,21 @@ export default function ClientProfile() {
           actions={
             <>
               <Link to="/clientes"><Button variant="ghost" icon={<ArrowLeft size={16} />}>Voltar</Button></Link>
-              <Button variant="secondary" icon={<MessageCircle size={16} />}>WhatsApp visual</Button>
-              <Button icon={<CalendarPlus size={16} />}>Novo retorno</Button>
+              <Button
+                variant="secondary"
+                icon={<MessageCircle size={16} />}
+                loading={isPending("client-whatsapp")}
+                onClick={() => runDemoAction("client-whatsapp", `Mensagem visual preparada para ${client.name}.`, { tone: "info" })}
+              >
+                WhatsApp visual
+              </Button>
+              <Button
+                icon={<CalendarPlus size={16} />}
+                loading={isPending("client-return")}
+                onClick={() => runDemoAction("client-return", `Retorno sugerido criado para ${client.nextAppointment}.`)}
+              >
+                Novo retorno
+              </Button>
             </>
           }
         />

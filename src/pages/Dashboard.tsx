@@ -1,4 +1,5 @@
-import { AlertTriangle, CalendarDays, Crown, Package, ReceiptText, Sparkles } from "lucide-react";
+﻿import { AlertTriangle, CalendarDays, Crown, Package, ReceiptText, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
@@ -8,10 +9,15 @@ import PageHeader from "../components/ui/PageHeader";
 import StatCard from "../components/ui/StatCard";
 import StatusBadge from "../components/ui/StatusBadge";
 import { appointments, commands, dashboardMetrics, professionals, serviceMix, weeklyRevenue } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
+import { useAppContext } from "../state/AppContext";
 import { currency } from "../utils/format";
 import { calculateCommandTotal } from "../utils/calculations";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+  const { showToast } = useAppContext();
+  const { isPending, runDemoAction } = useDemoAction();
   const openCommands = commands.filter((command) => command.status !== "Paga" && command.status !== "Cancelada");
 
   return (
@@ -21,7 +27,15 @@ export default function Dashboard() {
           eyebrow="Dashboard executivo"
           title="Controle premium da operação BRC em tempo real."
           description="Agenda, caixa, estoque técnico, orçamentos e performance reunidos em uma primeira tela pronta para reunião de diretoria."
-          actions={<Button icon={<CalendarDays size={16} />}>Novo agendamento</Button>}
+          actions={
+            <Button
+              icon={<CalendarDays size={16} />}
+              loading={isPending("dashboard-new-appointment")}
+              onClick={() => runDemoAction("dashboard-new-appointment", "Abrindo agenda para novo agendamento visual.", { tone: "info", onComplete: () => { showToast("Agenda pronta para cadastrar horário.", "success"); navigate("/agenda"); } })}
+            >
+              Novo agendamento
+            </Button>
+          }
         />
 
         <div className="page-grid">

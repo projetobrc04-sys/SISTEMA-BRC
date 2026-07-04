@@ -1,12 +1,15 @@
-import { Building2, Clock, DatabaseBackup, Shield, SlidersHorizontal } from "lucide-react";
+﻿import { Building2, Clock, DatabaseBackup, Shield, SlidersHorizontal } from "lucide-react";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
 import { SectionCard } from "../components/ui/Card";
 import Input from "../components/ui/Input";
 import PageHeader from "../components/ui/PageHeader";
 import Select from "../components/ui/Select";
+import { useDemoAction } from "../hooks/useDemoAction";
 
 export default function Settings() {
+  const { isPending, runDemoAction } = useDemoAction();
+
   return (
     <PermissionGuard permission="settings">
       <div className="page">
@@ -14,7 +17,7 @@ export default function Settings() {
           eyebrow="Configurações"
           title="Parâmetros visuais da unidade BRC."
           description="Tela demonstrativa para dados da unidade, horários, regras comerciais, LGPD, segurança e aparência."
-          actions={<Button icon={<SlidersHorizontal size={16} />}>Salvar visualmente</Button>}
+          actions={<Button icon={<SlidersHorizontal size={16} />} loading={isPending("settings-save")} onClick={() => runDemoAction("settings-save", "Configurações visuais salvas para a apresentação.")}>Salvar visualmente</Button>}
         />
 
         <div className="page-grid">

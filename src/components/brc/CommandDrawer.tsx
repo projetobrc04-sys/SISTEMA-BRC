@@ -1,10 +1,14 @@
+﻿import { useEffect, useState } from "react";
 import { CreditCard, Plus, ReceiptText } from "lucide-react";
+import { useDemoAction } from "../../hooks/useDemoAction";
 import type { Command } from "../../types";
 import { calculateCommandTotal, calculateEstimatedCommission, calculateTechnicalCost } from "../../utils/calculations";
 import { currency } from "../../utils/format";
 import Button from "../ui/Button";
 import Drawer from "../ui/Drawer";
 import StatusBadge from "../ui/StatusBadge";
+
+const paymentMethods = ["Dinheiro", "PIX", "Débito", "Crédito", "Link de pagamento", "Gift card", "Pacote pré-pago", "Pagamento misto"];
 
 export default function CommandDrawer({
   command,
@@ -17,7 +21,17 @@ export default function CommandDrawer({
   onClose: () => void;
   onFinishPayment: () => void;
 }) {
+  const { isPending, runDemoAction } = useDemoAction();
+  const [selectedPayment, setSelectedPayment] = useState("PIX");
+
+  useEffect(() => {
+    if (command?.paymentMethod) {
+      setSelectedPayment(command.paymentMethod);
+    }
+  }, [command?.paymentMethod]);
+
   if (!command) return null;
+
   const total = calculateCommandTotal(command);
   const technicalCost = calculateTechnicalCost(command.supplies);
   const commission = calculateEstimatedCommission(command);
@@ -97,24 +111,44 @@ export default function CommandDrawer({
         <section className="drawer-section">
           <h4>Checkout visual</h4>
           <div className="payment-grid">
-            {["Dinheiro", "PIX", "Débito", "Crédito", "Link de pagamento", "Gift card", "Pacote pré-pago", "Pagamento misto"].map(
-              (method) => (
-                <button className={method === command.paymentMethod ? "payment-method active" : "payment-method"} key={method}>
-                  {method}
-                </button>
-              ),
-            )}
+            {paymentMethods.map((method) => (
+              <button
+                type="button"
+                className={method === selectedPayment ? "payment-method active" : "payment-method"}
+                key={method}
+                onClick={() => {
+                  setSelectedPayment(method);
+                  runDemoAction(`payment-${method}`, `Método ${method} selecionado para esta comanda.`, { tone: "info", delay: 280 });
+                }}
+              >
+                {method}
+              </button>
+            ))}
           </div>
         </section>
 
         <div className="drawer-actions">
-          <Button variant="secondary" icon={<Plus size={16} />}>
+          <Button
+            variant="secondary"
+            icon={<Plus size={16} />}
+            loading={isPending("drawer-service")}
+            onClick={() => runDemoAction("drawer-service", "Serviço adicional lançado visualmente na comanda.")}
+          >
             Adicionar serviço
           </Button>
-          <Button variant="secondary" icon={<ReceiptText size={16} />}>
+          <Button
+            variant="secondary"
+            icon={<ReceiptText size={16} />}
+            loading={isPending("drawer-supply")}
+            onClick={() => runDemoAction("drawer-supply", "Insumo adicional lançado visualmente e refletido no custo técnico.")}
+          >
             Adicionar insumo
           </Button>
-          <Button icon={<CreditCard size={16} />} onClick={onFinishPayment}>
+          <Button
+            icon={<CreditCard size={16} />}
+            loading={isPending("drawer-finish")}
+            onClick={() => runDemoAction("drawer-finish", "Pagamento finalizado visualmente. Nenhum pagamento real foi processado.", { onComplete: onFinishPayment })}
+          >
             Finalizar pagamento
           </Button>
         </div>

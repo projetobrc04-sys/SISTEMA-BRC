@@ -1,4 +1,4 @@
-import { Menu, Search, ShieldCheck } from "lucide-react";
+﻿import { Menu, Search, ShieldCheck } from "lucide-react";
 import type { Role } from "../../types";
 import { useAppContext } from "../../state/AppContext";
 import { roleDescription } from "../../utils/permissions";
@@ -23,10 +23,10 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
           <strong>Operação premium Bruno Ribeiro Concept</strong>
         </div>
       </div>
-      <div className="topbar-search">
+      <button className="topbar-search" type="button" onClick={() => showToast("Busca global visual: cliente Mariana Alves, comanda #1022 e orçamento ORC-0883 encontrados.", "info")}>
         <Search size={16} />
         <span>Buscar cliente, comanda ou orçamento</span>
-      </div>
+      </button>
       <label className="role-switcher">
         <span>Visualizando como</span>
         <Select

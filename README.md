@@ -1,25 +1,54 @@
-# BRC BeautyOS — Visual Beta
+﻿# BRC BeautyOS - Visual Beta
 
-Protótipo visual front-end do sistema próprio para administração do salão Bruno Ribeiro Concept.
+Protótipo front-end do sistema proprietário para administração do salão Bruno Ribeiro Concept.
 
-Esta versão usa dados fictícios e não possui backend, banco de dados, autenticação real, pagamentos reais ou integrações reais.
+Esta versão é 100% visual: usa dados fictícios, estados locais e feedbacks simulados. Não há backend real, banco de dados real, autenticação real, pagamento real ou integração WhatsApp real.
 
-O objetivo é demonstrar visualmente os principais fluxos:
-agenda, clientes, prontuário técnico, comandas, orçamentos, fórmulas de coloração, estoque, caixa, permissões, financeiro e relatórios.
+## O que a demo cobre
 
-## Como rodar
+- Login fictício por perfil.
+- Dashboard executivo com KPIs, gráficos, agenda, comandas e alertas.
+- Agenda com filtros, busca, mini calendário, check-in, ficha e drawer de comanda.
+- CRM de clientes e prontuário técnico.
+- Comandas, checkout visual e baixa técnica simulada.
+- Orçamentos, fórmulas de coloração, estoque, profissionais, caixa, financeiro, relatórios, permissões e configurações.
+- Agendamento online público com seleção de serviço, profissional, horário e confirmação visual.
+- Microinterações com Motion e efeitos premium moderados no estilo Aceternity UI.
+
+## Como rodar localmente
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
+Acesse a URL exibida pelo Vite, normalmente:
+
+```text
+http://localhost:5173/
+```
+
+## Build de produção
 
 ```bash
 npm run build
 ```
 
-## Observação
+## Build para GitHub Pages
 
-Este projeto é uma versão beta visual para apresentação executiva. Os dados são mockados e as ações são simuladas localmente.
+```bash
+npm run build:github
+```
+
+## Deploy
+
+- Vercel usa o build padrão `npm run build`, com assets na raiz `/assets/...`.
+- GitHub Pages usa `npm run build:github`, com base `/SISTEMA-BRC/`.
+- A aplicação usa rotas com hash para evitar 404 em hospedagem estática.
+
+## Documentação operacional
+
+- `DOCUMENTACAO DE RETOMADA.md`: histórico de solicitações, melhorias, validações, commits e pushs.
+- `AUDITORIA_INTERATIVOS_BRC.md`: lista de botões/links auditados e corrigidos.
+- `design-system/brc-beautyos/MASTER.md`: direção visual aprovada para a identidade BRC.
+- `.migration/project.md`: verificação Radix → Base/shadcn.

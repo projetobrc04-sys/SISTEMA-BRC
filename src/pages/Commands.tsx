@@ -1,4 +1,4 @@
-import { Plus, ReceiptText } from "lucide-react";
+﻿import { Plus, ReceiptText } from "lucide-react";
 import { useState } from "react";
 import CommandDrawer from "../components/brc/CommandDrawer";
 import PermissionGuard from "../components/brc/PermissionGuard";
@@ -6,6 +6,7 @@ import Button from "../components/ui/Button";
 import PageHeader from "../components/ui/PageHeader";
 import StatusBadge from "../components/ui/StatusBadge";
 import { commands } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
 import { useAppContext } from "../state/AppContext";
 import type { Command } from "../types";
 import { calculateCommandTotal, calculateTechnicalCost } from "../utils/calculations";
@@ -20,7 +21,13 @@ const columns = [
 
 export default function Commands() {
   const { showToast } = useAppContext();
-  const [selected, setSelected] = useState<Command | undefined>(commands[0]);
+  const { isPending, runDemoAction } = useDemoAction();
+  const [selected, setSelected] = useState<Command | undefined>();
+
+  const openCommand = (command: Command) => {
+    setSelected(command);
+    showToast(`Comanda ${command.id} aberta no drawer visual.`, "info");
+  };
 
   return (
     <PermissionGuard permission="commands">
@@ -29,7 +36,15 @@ export default function Commands() {
           eyebrow="Comandas e checkout manual"
           title="Fluxo operacional com consumo de insumos por gramas e mililitros."
           description="A tela demonstra o problema central da operação: serviço, produto vendido, baixa técnica, custo e pagamento na mesma visão."
-          actions={<Button icon={<Plus size={16} />}>Abrir comanda</Button>}
+          actions={
+            <Button
+              icon={<Plus size={16} />}
+              loading={isPending("command-new")}
+              onClick={() => runDemoAction("command-new", "Comanda visual aberta para novo atendimento.", { onComplete: () => setSelected(commands[0]) })}
+            >
+              Abrir comanda
+            </Button>
+          }
         />
 
         <div className="kpi-strip">
@@ -44,7 +59,19 @@ export default function Commands() {
             <section className="kanban-column" key={column.label}>
               <h3>{column.label}</h3>
               {commands.filter(column.match).map((command) => (
-                <button className="command-card" key={command.id} onClick={() => setSelected(command)}>
+                <article
+                  className="command-card"
+                  key={command.id}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openCommand(command)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      openCommand(command);
+                    }
+                  }}
+                >
                   <div className="appointment-main">
                     <strong>{command.clientName}</strong>
                     <StatusBadge status={command.status} />
@@ -55,8 +82,18 @@ export default function Commands() {
                     <span>{command.id} · {command.startedAt}</span>
                     <strong>{currency(calculateCommandTotal(command))}</strong>
                   </div>
-                  <Button variant="secondary" icon={<ReceiptText size={15} />}>Abrir drawer</Button>
-                </button>
+                  <Button
+                    variant="secondary"
+                    icon={<ReceiptText size={15} />}
+                    loading={isPending(`drawer-${command.id}`)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      runDemoAction(`drawer-${command.id}`, `Comanda ${command.id} carregada no drawer.`, { tone: "info", onComplete: () => setSelected(command) });
+                    }}
+                  >
+                    Abrir drawer
+                  </Button>
+                </article>
               ))}
             </section>
           ))}
@@ -66,7 +103,7 @@ export default function Commands() {
           open={Boolean(selected)}
           command={selected}
           onClose={() => setSelected(undefined)}
-          onFinishPayment={() => showToast("Pagamento finalizado visualmente. Nenhum pagamento real foi processado.", "success")}
+          onFinishPayment={() => setSelected(undefined)}
         />
       </div>
     </PermissionGuard>

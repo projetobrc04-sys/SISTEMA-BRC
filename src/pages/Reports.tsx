@@ -1,4 +1,5 @@
-import { BarChart3, Download } from "lucide-react";
+﻿import { BarChart3, Download } from "lucide-react";
+import { useState } from "react";
 import { Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, Cell, XAxis, CartesianGrid } from "recharts";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
@@ -7,11 +8,15 @@ import HeatmapGrid from "../components/ui/HeatmapGrid";
 import PageHeader from "../components/ui/PageHeader";
 import StatCard from "../components/ui/StatCard";
 import { products, professionals, serviceMix, weeklyRevenue } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
 import { currency } from "../utils/format";
 
 const colors = ["#D6B56D", "#E7D3A0", "#A3A3A3", "#FFFFFF", "#7C6A43"];
 
 export default function Reports() {
+  const { isPending, runDemoAction } = useDemoAction();
+  const [periodLabel, setPeriodLabel] = useState("Últimos 7 dias");
+
   return (
     <PermissionGuard permission="reports">
       <div className="page">
@@ -19,7 +24,12 @@ export default function Reports() {
           eyebrow="Relatórios e BI"
           title="Indicadores para decidir agenda, estoque, serviços e margem."
           description="Relatórios mockados em Recharts para demonstrar como a diretoria visualizaria a operação em tempo real."
-          actions={<><Button variant="secondary" icon={<Download size={16} />}>Exportar PDF visual</Button><Button icon={<BarChart3 size={16} />}>Atualizar período</Button></>}
+          actions={
+            <>
+              <Button variant="secondary" icon={<Download size={16} />} loading={isPending("reports-export")} onClick={() => runDemoAction("reports-export", "PDF visual preparado para a apresentação.")}>Exportar PDF visual</Button>
+              <Button icon={<BarChart3 size={16} />} loading={isPending("reports-period")} onClick={() => runDemoAction("reports-period", "Período atualizado visualmente para leitura executiva.", { onComplete: () => setPeriodLabel("Julho 2026 atualizado") })}>Atualizar período</Button>
+            </>
+          }
         />
 
         <div className="page-grid">
@@ -31,7 +41,7 @@ export default function Reports() {
 
         <div className="page-grid">
           <div className="span-6">
-            <SectionCard title="Faturamento por período" eyebrow="Linha semanal">
+            <SectionCard title="Faturamento por período" eyebrow={periodLabel}>
               <div style={{ height: 300 }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={weeklyRevenue}>

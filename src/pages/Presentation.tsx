@@ -1,10 +1,12 @@
-import { ArrowRight, Crown } from "lucide-react";
+﻿import { ArrowRight, Crown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import BrcHero from "../components/brc/BrcHero";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import PresentationCard from "../components/brc/PresentationCard";
 import Button from "../components/ui/Button";
 import { SectionCard } from "../components/ui/Card";
 import PageHeader from "../components/ui/PageHeader";
+import { useDemoAction } from "../hooks/useDemoAction";
 
 const argumentsList = [
   ["Agenda e atendimento em uma só visão", "Recepção acompanha confirmação, check-in, lista de espera, ficha e abertura de comanda sem troca de sistema."],
@@ -17,6 +19,9 @@ const argumentsList = [
 ];
 
 export default function Presentation() {
+  const navigate = useNavigate();
+  const { isPending, runDemoAction } = useDemoAction();
+
   return (
     <PermissionGuard permission="presentation">
       <div className="page">
@@ -29,7 +34,7 @@ export default function Presentation() {
           eyebrow="Modo apresentação"
           title="O argumento é simples: parar de adaptar o salão ao sistema e adaptar o sistema ao salão."
           description="Esta página concentra os pontos que uma diretoria precisa ver para entender valor, controle e diferenciação."
-          actions={<Button icon={<ArrowRight size={16} />}>Iniciar demonstração</Button>}
+          actions={<Button icon={<ArrowRight size={16} />} loading={isPending("presentation-start")} onClick={() => runDemoAction("presentation-start", "Demonstração executiva iniciada pelo dashboard.", { onComplete: () => navigate("/dashboard") })}>Iniciar demonstração</Button>}
         />
 
         <div className="page-grid">

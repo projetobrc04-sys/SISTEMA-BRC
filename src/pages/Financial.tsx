@@ -1,4 +1,5 @@
-import { BarChart3 } from "lucide-react";
+﻿import { BarChart3 } from "lucide-react";
+import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
@@ -7,6 +8,7 @@ import DataTable from "../components/ui/DataTable";
 import PageHeader from "../components/ui/PageHeader";
 import StatCard from "../components/ui/StatCard";
 import { dreRows, serviceMix, weeklyRevenue } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
 import { currency } from "../utils/format";
 
 interface DreRow {
@@ -16,6 +18,9 @@ interface DreRow {
 }
 
 export default function Financial() {
+  const { isPending, runDemoAction } = useDemoAction();
+  const [generatedAt, setGeneratedAt] = useState("DRE mock financeiro");
+
   return (
     <PermissionGuard permission="financial">
       <div className="page">
@@ -23,7 +28,7 @@ export default function Financial() {
           eyebrow="Financeiro e DRE visual"
           title="Faturamento, despesas, comissões, insumos e lucro estimado."
           description="Área restrita para Admin/Gerente. Perfis operacionais recebem acesso restrito."
-          actions={<Button icon={<BarChart3 size={16} />}>Gerar DRE visual</Button>}
+          actions={<Button icon={<BarChart3 size={16} />} loading={isPending("financial-dre")} onClick={() => runDemoAction("financial-dre", "DRE visual recalculada com dados mockados.", { onComplete: () => setGeneratedAt("DRE atualizada para apresentação executiva") })}>Gerar DRE visual</Button>}
         />
 
         <div className="page-grid">
@@ -35,7 +40,7 @@ export default function Financial() {
 
         <div className="page-grid">
           <div className="span-7">
-            <SectionCard title="DRE gerencial visual" eyebrow="Mock financeiro">
+            <SectionCard title="DRE gerencial visual" eyebrow={generatedAt}>
               <DataTable<DreRow>
                 rows={dreRows}
                 columns={[

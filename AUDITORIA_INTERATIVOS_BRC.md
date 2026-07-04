@@ -1,0 +1,36 @@
+﻿# Auditoria de Interativos - BRC BeautyOS
+
+Data: 2026-07-04
+Escopo: paginas e componentes React em `src/`.
+
+## Achados Iniciais Corrigidos
+
+- `Dashboard`: botao `Novo agendamento` nao tinha acao. Agora simula loading, confirma e navega para Agenda.
+- `Agenda`: mini calendario nao alterava estado; busca nao filtrava; ficha nao reagia. Agora filtra, troca dia, abre ficha/comanda visual e salva agendamento com loading.
+- `AppointmentCard`: `Ver ficha` era inerte. Agora abre ficha tecnica visual via toast/loading.
+- `CommandDrawer`: metodos de pagamento, adicionar servico e adicionar insumo eram inertes. Agora todos alteram estado ou simulam acao.
+- `Commands`: `Abrir comanda` e `Abrir drawer` eram inertes; havia botao dentro de botao. Agora abre drawer, tem teclado Enter/Espaco e HTML valido.
+- `BudgetSummaryCard`: enviar, alterar, gerar proposta e duplicar eram inertes. Agora todos simulam acao com loading e feedback.
+- `Clients`: `Buscar` e `Segmentar retorno` eram inertes. Agora busca informa resultado e segmentacao aplica filtro de inativas.
+- `ClientProfile`: `WhatsApp visual` e `Novo retorno` eram inertes. Agora simulam mensagem e retorno.
+- `Cashier`: abrir/fechar caixa, sangria e suprimento eram inertes. Agora alteram status/feedback visual.
+- `ColorFormulas`: `Simular formula` era inerte. Agora marca simulacao ativa e recomenda formula.
+- `Financial`: `Gerar DRE visual` era inerte. Agora atualiza estado da DRE.
+- `Permissions`: `Novo usuario visual` era inerte. Agora abre modal e salva usuario visual.
+- `Presentation`: `Iniciar demonstracao` era inerte. Agora inicia fluxo e navega ao dashboard.
+- `Professionals`: configurar/regras restritas eram inertes. Agora respondem conforme permissao.
+- `Reports`: exportar/atualizar periodo eram inertes. Agora exporta visual e atualiza periodo.
+- `Settings`: salvar era inerte. Agora confirma salvamento visual.
+- `Stock`: exportar, novo item, baixa por servico e ver criticos eram inertes. Agora exporta visual, abre modal, simula baixa e filtra criticos.
+- `OnlineBooking`: horarios nao eram selecionaveis e confirmacao final nao tinha acao de envio. Agora seleciona horario e confirma reserva visual.
+- `Header`: busca global parecia interativa mas era apenas um bloco visual. Agora e botao com feedback.
+
+## Auditoria Final
+
+Comando usado:
+
+```bash
+rg '<Button|<button|<Link|<NavLink|role="button"|onClick|to=|href=' src -n
+```
+
+Resultado final: nao restaram botoes ou links inertes identificados. Itens sem `onClick` sao `type="submit"`, `disabled`, `Link/NavLink` com rota, ou recebem handler por props.

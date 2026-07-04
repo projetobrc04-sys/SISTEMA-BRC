@@ -1,4 +1,5 @@
-import { FlaskConical } from "lucide-react";
+﻿import { FlaskConical } from "lucide-react";
+import { useState } from "react";
 import FormulaSuggestionCard from "../components/brc/FormulaSuggestionCard";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
@@ -8,6 +9,7 @@ import Input from "../components/ui/Input";
 import PageHeader from "../components/ui/PageHeader";
 import Select from "../components/ui/Select";
 import { formulaComparison, formulas } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
 import { currency } from "../utils/format";
 
 interface FormulaRow {
@@ -20,6 +22,9 @@ interface FormulaRow {
 }
 
 export default function ColorFormulas() {
+  const { isPending, runDemoAction } = useDemoAction();
+  const [simulated, setSimulated] = useState(false);
+
   return (
     <PermissionGuard permission="formulas">
       <div className="page">
@@ -27,8 +32,10 @@ export default function ColorFormulas() {
           eyebrow="Fórmulas de coloração"
           title="Sugestão técnica comparando qualidade, margem e estoque."
           description="A decisão final segue sendo do profissional, mas o sistema mostra alternativas com custo técnico e disponibilidade."
-          actions={<Button icon={<FlaskConical size={16} />}>Simular fórmula</Button>}
+          actions={<Button icon={<FlaskConical size={16} />} loading={isPending("formula-simulate")} onClick={() => runDemoAction("formula-simulate", "Fórmula simulada com estoque, custo e margem visual.", { onComplete: () => setSimulated(true) })}>Simular fórmula</Button>}
         />
+
+        {simulated && <div className="notice">Simulação ativa: sugestão Wella priorizada por qualidade, estoque disponível e margem preservada.</div>}
 
         <SectionCard title="Briefing técnico" eyebrow="Entrada visual">
           <div className="filter-bar">
@@ -44,9 +51,9 @@ export default function ColorFormulas() {
         </SectionCard>
 
         <div className="page-grid">
-          {formulas.map((formula) => (
+          {formulas.map((formula, index) => (
             <div className="span-4" key={formula.title}>
-              <FormulaSuggestionCard formula={formula} />
+              <FormulaSuggestionCard formula={{ ...formula, badge: simulated && index === 0 ? "Recomendada agora" : formula.badge }} />
             </div>
           ))}
         </div>

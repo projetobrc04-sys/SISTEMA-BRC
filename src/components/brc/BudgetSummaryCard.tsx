@@ -1,10 +1,13 @@
-import { CheckCircle2, Copy, FileOutput, RefreshCcw, Send } from "lucide-react";
+﻿import { CheckCircle2, Copy, FileOutput, RefreshCcw, Send } from "lucide-react";
+import { useDemoAction } from "../../hooks/useDemoAction";
 import type { Budget } from "../../types";
 import { currency } from "../../utils/format";
 import Button from "../ui/Button";
 import StatusBadge from "../ui/StatusBadge";
 
 export default function BudgetSummaryCard({ budget, onApprove }: { budget: Budget; onApprove: () => void }) {
+  const { isPending, runDemoAction } = useDemoAction();
+
   return (
     <section className="budget-summary card champagne-line">
       <div className="budget-header">
@@ -45,19 +48,43 @@ export default function BudgetSummaryCard({ budget, onApprove }: { budget: Budge
         ))}
       </div>
       <div className="button-row">
-        <Button variant="secondary" icon={<Send size={16} />}>
+        <Button
+          variant="secondary"
+          icon={<Send size={16} />}
+          loading={isPending("budget-command")}
+          onClick={() => runDemoAction("budget-command", "Orçamento enviado para a comanda visual.")}
+        >
           Enviar para comanda
         </Button>
-        <Button icon={<CheckCircle2 size={16} />} onClick={onApprove}>
+        <Button
+          icon={<CheckCircle2 size={16} />}
+          loading={isPending("budget-approved")}
+          onClick={() => runDemoAction("budget-approved", "Cliente aprovou o orçamento visual.", { onComplete: onApprove })}
+        >
           Cliente aprovou
         </Button>
-        <Button variant="ghost" icon={<RefreshCcw size={16} />}>
+        <Button
+          variant="ghost"
+          icon={<RefreshCcw size={16} />}
+          loading={isPending("budget-change")}
+          onClick={() => runDemoAction("budget-change", "Solicitação de alteração registrada no pipeline visual.", { tone: "info" })}
+        >
           Cliente solicitou alteração
         </Button>
-        <Button variant="ghost" icon={<FileOutput size={16} />}>
+        <Button
+          variant="ghost"
+          icon={<FileOutput size={16} />}
+          loading={isPending("budget-proposal")}
+          onClick={() => runDemoAction("budget-proposal", "Proposta visual gerada para apresentação à cliente.")}
+        >
           Gerar proposta visual
         </Button>
-        <Button variant="ghost" icon={<Copy size={16} />}>
+        <Button
+          variant="ghost"
+          icon={<Copy size={16} />}
+          loading={isPending("budget-copy")}
+          onClick={() => runDemoAction("budget-copy", "Orçamento duplicado visualmente.")}
+        >
           Duplicar orçamento
         </Button>
       </div>

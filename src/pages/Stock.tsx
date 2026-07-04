@@ -1,4 +1,4 @@
-import { AlertTriangle, Download, PackageCheck, Plus } from "lucide-react";
+﻿import { AlertTriangle, Download, PackageCheck, Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import StockStatusBadge from "../components/brc/StockStatusBadge";
@@ -6,25 +6,31 @@ import Button from "../components/ui/Button";
 import { SectionCard } from "../components/ui/Card";
 import DataTable from "../components/ui/DataTable";
 import Input from "../components/ui/Input";
+import Modal from "../components/ui/Modal";
 import PageHeader from "../components/ui/PageHeader";
 import Select from "../components/ui/Select";
 import StatCard from "../components/ui/StatCard";
 import { products } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
 import type { Product } from "../types";
 import { currency } from "../utils/format";
 
 export default function Stock() {
+  const { isPending, runDemoAction } = useDemoAction();
   const [type, setType] = useState("Todos");
   const [query, setQuery] = useState("");
+  const [criticalOnly, setCriticalOnly] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const filtered = useMemo(
     () =>
       products.filter((product) => {
         const matchesType = type === "Todos" || product.type === type;
         const matchesQuery = `${product.name} ${product.brand} ${product.category}`.toLowerCase().includes(query.toLowerCase());
-        return matchesType && matchesQuery;
+        const matchesCritical = !criticalOnly || product.status === "Crítico" || product.status === "Baixo" || product.status === "Vencendo";
+        return matchesType && matchesQuery && matchesCritical;
       }),
-    [query, type],
+    [criticalOnly, query, type],
   );
 
   return (
@@ -34,7 +40,12 @@ export default function Stock() {
           eyebrow="Estoque técnico"
           title="Produtos, insumos e descartáveis com status operacional."
           description="Controle visual por gramas, mililitros, unidade e pacote, com alertas de baixo estoque e vencimento."
-          actions={<><Button variant="secondary" icon={<Download size={16} />}>Exportar visual</Button><Button icon={<Plus size={16} />}>Novo item</Button></>}
+          actions={
+            <>
+              <Button variant="secondary" icon={<Download size={16} />} loading={isPending("stock-export")} onClick={() => runDemoAction("stock-export", "Relatório visual de estoque preparado.")}>Exportar visual</Button>
+              <Button icon={<Plus size={16} />} onClick={() => setModalOpen(true)}>Novo item</Button>
+            </>
+          }
         />
 
         <div className="page-grid">
@@ -50,8 +61,17 @@ export default function Stock() {
               <div className="filter-bar" style={{ marginBottom: 16 }}>
                 <label>Busca<Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Produto, marca ou categoria" /></label>
                 <label>Tipo<Select value={type} onChange={(event) => setType(event.target.value)}><option>Todos</option><option>Venda</option><option>Uso interno</option><option>Insumo técnico</option><option>Descartável</option></Select></label>
-                <Button variant="secondary" icon={<PackageCheck size={16} />}>Baixa por serviço</Button>
-                <Button variant="ghost" icon={<AlertTriangle size={16} />}>Ver críticos</Button>
+                <Button variant="secondary" icon={<PackageCheck size={16} />} loading={isPending("stock-consume")} onClick={() => runDemoAction("stock-consume", "Baixa por serviço simulada com consumo técnico em g/ml.")}>Baixa por serviço</Button>
+                <Button
+                  variant={criticalOnly ? "secondary" : "ghost"}
+                  icon={<AlertTriangle size={16} />}
+                  onClick={() => {
+                    setCriticalOnly((current) => !current);
+                    runDemoAction("stock-critical", criticalOnly ? "Filtro de críticos removido." : "Filtro de produtos críticos aplicado.", { tone: "info", delay: 280 });
+                  }}
+                >
+                  Ver críticos
+                </Button>
               </div>
               <DataTable<Product>
                 rows={filtered}
@@ -88,6 +108,16 @@ export default function Stock() {
             </SectionCard>
           </div>
         </div>
+
+        <Modal open={modalOpen} title="Novo item visual" onClose={() => setModalOpen(false)}>
+          <div className="compact-form">
+            <label>Produto<Input defaultValue="Gloss BRC Champagne" /></label>
+            <label>Tipo<Select defaultValue="Insumo técnico"><option>Venda</option><option>Uso interno</option><option>Insumo técnico</option><option>Descartável</option></Select></label>
+            <label>Estoque inicial<Input defaultValue="480g" /></label>
+            <div className="notice">Item demonstrativo. Nenhum estoque real será criado.</div>
+            <Button loading={isPending("stock-save")} onClick={() => runDemoAction("stock-save", "Item visual adicionado ao estoque mockado.", { onComplete: () => setModalOpen(false) })}>Salvar item visual</Button>
+          </div>
+        </Modal>
       </div>
     </PermissionGuard>
   );

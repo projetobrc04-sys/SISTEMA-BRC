@@ -1,4 +1,5 @@
-import { CalendarClock, CheckCircle2, FileText, ReceiptText } from "lucide-react";
+﻿import { CalendarClock, CheckCircle2, FileText, ReceiptText } from "lucide-react";
+import { useDemoAction } from "../../hooks/useDemoAction";
 import type { Appointment } from "../../types";
 import Button from "../ui/Button";
 import StatusBadge from "../ui/StatusBadge";
@@ -12,6 +13,8 @@ export default function AppointmentCard({
   onCheckIn: (appointment: Appointment) => void;
   onOpenCommand: (appointment: Appointment) => void;
 }) {
+  const { isPending, runDemoAction } = useDemoAction();
+
   return (
     <article className="appointment-card">
       <div className="appointment-time">
@@ -30,13 +33,28 @@ export default function AppointmentCard({
         <span>{appointment.room}</span>
       </div>
       <div className="appointment-actions">
-        <Button variant="secondary" icon={<CheckCircle2 size={15} />} onClick={() => onCheckIn(appointment)}>
+        <Button
+          variant="secondary"
+          icon={<CheckCircle2 size={15} />}
+          loading={isPending(`checkin-${appointment.id}`)}
+          onClick={() => runDemoAction(`checkin-${appointment.id}`, "Check-in realizado. Comanda pronta para abertura.", { onComplete: () => onCheckIn(appointment) })}
+        >
           Check-in
         </Button>
-        <Button variant="ghost" icon={<FileText size={15} />}>
+        <Button
+          variant="ghost"
+          icon={<FileText size={15} />}
+          loading={isPending(`profile-${appointment.id}`)}
+          onClick={() => runDemoAction(`profile-${appointment.id}`, `Ficha técnica de ${appointment.clientName} aberta em modo visual.`, { tone: "info" })}
+        >
           Ver ficha
         </Button>
-        <Button variant="ghost" icon={<ReceiptText size={15} />} onClick={() => onOpenCommand(appointment)}>
+        <Button
+          variant="ghost"
+          icon={<ReceiptText size={15} />}
+          loading={isPending(`command-${appointment.id}`)}
+          onClick={() => runDemoAction(`command-${appointment.id}`, "Comanda visual aberta para demonstração.", { onComplete: () => onOpenCommand(appointment) })}
+        >
           Abrir comanda
         </Button>
       </div>

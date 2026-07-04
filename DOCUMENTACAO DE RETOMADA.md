@@ -331,3 +331,53 @@ O usuario pediu para desinstalar `shadcnblocks` e instalar `aceternity-ui` no lu
 ### Observacao operacional
 
 A skill `aceternity-ui` esta pronta para a proxima sessao. O projeto ainda nao recebeu componentes Aceternity nem dependencias de runtime como Framer Motion no `package.json`; isso deve acontecer apenas quando for aplicar os componentes na interface.
+## 2026-07-04 05:44:03 -03:00
+
+### Solicitacao recebida
+
+O usuario definiu a rodada como evolucao da base atual do BRC BeautyOS para um prototipo visualmente premium, 100% clicavel e pronto para apresentacao da diretoria, sem backend novo. Tambem exigiu uso do `delivery-loop`, auditoria de botoes/links, direcao visual com `frontend-design` e `ui-ux-pro-max`, validacao com `impeccable` contra `PRODUCT.md`, efeitos `aceternity-ui`, microinteracoes com Motion, verificacao `migrate-radix-to-base`, performance com `react-best-practices`, build sem warning novo, commit e push.
+
+### Skills aplicadas nesta secao
+
+- `delivery-loop`: ciclo inspecionar, implementar, validar, documentar, commit e push.
+- `frontend-design`: refinamento da direcao estetica premium.
+- `ui-ux-pro-max`: geracao inicial de sistema de design e checklist UX; a paleta rosa/lavanda sugerida foi rejeitada por conflito com a identidade BRC.
+- `impeccable`: contexto de produto carregado via `PRODUCT.md`.
+- `aceternity-ui`: efeito visual premium moderado no hero/agendamento/apresentacao.
+- `motion-framer`: microinteracoes em botoes, transicao de pagina e aura animada.
+- `shadcn`: mantido como diretriz de composicao para novos componentes internos.
+- `migrate-radix-to-base`: verificado; nao aplicavel porque nao havia Radix no projeto.
+- `react-best-practices`: aplicado em bundle, imports, animacoes por transform/opacity e componentes reutilizaveis.
+
+### Melhorias feitas
+
+- Instaladas dependencias `motion` e `tailwind-merge`.
+- Botao global `src/components/ui/Button.tsx` refeito com `motion.button`, loading visual, hover/tap e foco acessivel.
+- Criado `src/hooks/useDemoAction.ts` para simular acoes sem backend com loading, toast e callback local.
+- Criado `src/components/effects/PremiumAura.tsx` para aura premium estilo Aceternity, com `prefers-reduced-motion`.
+- `AppShell` passou a usar `AnimatePresence` e transicao sutil por rota.
+- `BrcHero` recebeu efeito visual premium moderado.
+- Ajustado CSS global com microinteracoes, foco visivel, loading spinner, hover premium e aura.
+- Corrigidos botoes/links inertes em Dashboard, Agenda, AppointmentCard, CommandDrawer, Commands, BudgetSummaryCard, Clients, ClientProfile, Cashier, ColorFormulas, Financial, Permissions, Presentation, Professionals, Reports, Settings, Stock, OnlineBooking e Header.
+- Corrigido HTML invalido na tela de Comandas, removendo botao dentro de botao.
+- Criado `AUDITORIA_INTERATIVOS_BRC.md` com lista de achados e resolucao.
+- Atualizado `design-system/brc-beautyos/MASTER.md` como fonte de verdade BRC em preto/off-white/champagne.
+- Criado `.migration/project.md` registrando que nao havia Radix a migrar.
+- Atualizado `README.md` com instrucoes de execucao, build, deploy e documentacao operacional.
+
+### Validacoes realizadas
+
+- `npm run build` executado com sucesso.
+- Build Vite final sem warning novo de chunk ou dependencia deprecated.
+- Auditoria estatica de interativos executada com `rg '<Button|<button|<Link|<NavLink|role="button"|onClick|to=|href=' src -n`.
+- Resultado da auditoria: nao restaram botoes ou links inertes identificados; casos sem `onClick` sao submit, disabled, Link/NavLink com rota ou recebem handler por props.
+
+### Observacoes
+
+- Pagamento, WhatsApp real, banco de dados e autenticacao real seguem fora de escopo.
+- A inicializacao formal de shadcn/ui com `components.json` segue para fase futura se o produto passar a consumir registries/blocos diretamente.
+
+### Validacao adicional de deploy estatico
+
+- `npm run build:github` tambem foi executado com sucesso apos repetir fora do sandbox por causa de `spawn EPERM` do esbuild.
+- Resultado: build para GitHub Pages validado com `--base=/SISTEMA-BRC/`.

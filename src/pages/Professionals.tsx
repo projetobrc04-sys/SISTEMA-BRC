@@ -1,15 +1,17 @@
-import { CalendarClock, Lock, Settings2, Star } from "lucide-react";
+﻿import { CalendarClock, Lock, Settings2, Star } from "lucide-react";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
 import { SectionCard } from "../components/ui/Card";
 import PageHeader from "../components/ui/PageHeader";
 import StatusBadge from "../components/ui/StatusBadge";
 import { professionals } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
 import { useAppContext } from "../state/AppContext";
 import { currency } from "../utils/format";
 
 export default function Professionals() {
   const { role } = useAppContext();
+  const { isPending, runDemoAction } = useDemoAction();
   const sensitive = role === "Admin" || role === "Gerente";
 
   return (
@@ -19,7 +21,11 @@ export default function Professionals() {
           eyebrow="Profissionais e comissões"
           title="Produção, agenda, ocupação e metas por profissional."
           description="Admin vê comissões e regras. Recepção fica na visão operacional, sem dados estratégicos."
-          actions={sensitive ? <Button icon={<Settings2 size={16} />}>Configurar regras</Button> : <Button variant="ghost" icon={<Lock size={16} />}>Regras restritas</Button>}
+          actions={sensitive ? (
+            <Button icon={<Settings2 size={16} />} loading={isPending("professional-rules")} onClick={() => runDemoAction("professional-rules", "Regras de comissão abertas em modo visual.", { tone: "info" })}>Configurar regras</Button>
+          ) : (
+            <Button variant="ghost" icon={<Lock size={16} />} loading={isPending("professional-locked")} onClick={() => runDemoAction("professional-locked", "Regras restritas para o perfil atual.", { tone: "warning" })}>Regras restritas</Button>
+          )}
         />
 
         <div className="page-grid">

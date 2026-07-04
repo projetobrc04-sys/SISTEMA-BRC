@@ -1,4 +1,4 @@
-import { Plus, Search, UserRoundCheck } from "lucide-react";
+﻿import { Plus, Search, UserRoundCheck } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import PermissionGuard from "../components/brc/PermissionGuard";
@@ -12,12 +12,14 @@ import Select from "../components/ui/Select";
 import StatCard from "../components/ui/StatCard";
 import StatusBadge from "../components/ui/StatusBadge";
 import { clients } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
 import { useAppContext } from "../state/AppContext";
 import type { Client } from "../types";
 import { currency } from "../utils/format";
 
 export default function Clients() {
   const { showToast } = useAppContext();
+  const { isPending, runDemoAction } = useDemoAction();
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("Todos");
   const [modalOpen, setModalOpen] = useState(false);
@@ -63,8 +65,22 @@ export default function Clients() {
           <div className="filter-bar" style={{ marginBottom: 16 }}>
             <label>Busca<Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Nome, telefone ou Instagram" /></label>
             <label>Status<Select value={status} onChange={(event) => setStatus(event.target.value)}><option>Todos</option><option>Nova</option><option>Recorrente</option><option>VIP</option><option>Inativa</option><option>Alto ticket</option><option>Pacote ativo</option></Select></label>
-            <Button variant="secondary" icon={<Search size={16} />}>Buscar</Button>
-            <Button variant="ghost" icon={<UserRoundCheck size={16} />}>Segmentar retorno</Button>
+            <Button
+              variant="secondary"
+              icon={<Search size={16} />}
+              loading={isPending("client-search")}
+              onClick={() => runDemoAction("client-search", `${filtered.length} clientes encontrados com os filtros atuais.`, { tone: "info" })}
+            >
+              Buscar
+            </Button>
+            <Button
+              variant="ghost"
+              icon={<UserRoundCheck size={16} />}
+              loading={isPending("client-segment")}
+              onClick={() => runDemoAction("client-segment", "Segmento de retorno montado com clientes inativas.", { tone: "info", onComplete: () => setStatus("Inativa") })}
+            >
+              Segmentar retorno
+            </Button>
           </div>
           <DataTable<Client>
             rows={filtered}
@@ -87,7 +103,10 @@ export default function Clients() {
             <label>Nome<Input defaultValue="Mariana Alves" /></label>
             <label>Telefone<Input defaultValue="(11) 98841-2031" /></label>
             <div className="notice">Possível duplicidade encontrada: já existe uma cliente com este telefone.</div>
-            <Button onClick={() => { setModalOpen(false); showToast("Cliente visual salva. Nenhum cadastro real foi criado.", "success"); }}>
+            <Button
+              loading={isPending("client-save")}
+              onClick={() => runDemoAction("client-save", "Cliente visual salva. Nenhum cadastro real foi criado.", { onComplete: () => { setModalOpen(false); showToast("CRM atualizado para a apresentação.", "success"); } })}
+            >
               Salvar cliente
             </Button>
           </div>

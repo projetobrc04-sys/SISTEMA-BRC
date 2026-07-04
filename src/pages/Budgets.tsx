@@ -1,4 +1,4 @@
-import { Calculator, Plus } from "lucide-react";
+﻿import { Calculator, Plus } from "lucide-react";
 import { useState } from "react";
 import BudgetSummaryCard from "../components/brc/BudgetSummaryCard";
 import PermissionGuard from "../components/brc/PermissionGuard";
@@ -9,13 +9,15 @@ import Modal from "../components/ui/Modal";
 import PageHeader from "../components/ui/PageHeader";
 import Select from "../components/ui/Select";
 import { budgetMariana, budgets, clients, services } from "../data/mockData";
-import { useAppContext } from "../state/AppContext";
+import { useDemoAction } from "../hooks/useDemoAction";
 import type { Budget } from "../types";
 import { currency } from "../utils/format";
 
 export default function Budgets() {
-  const { showToast } = useAppContext();
+  const { isPending, runDemoAction } = useDemoAction();
   const [modalOpen, setModalOpen] = useState(false);
+  const [approved, setApproved] = useState(false);
+  const featuredBudget = approved ? { ...budgetMariana, status: "Aprovado para comanda" } : budgetMariana;
 
   return (
     <PermissionGuard permission="budgets">
@@ -28,8 +30,8 @@ export default function Budgets() {
         />
 
         <BudgetSummaryCard
-          budget={budgetMariana}
-          onApprove={() => showToast("Orçamento aprovado visualmente. Pode ser enviado para comanda.", "success")}
+          budget={featuredBudget}
+          onApprove={() => setApproved(true)}
         />
 
         <SectionCard title="Pipeline de orçamentos" eyebrow="Mock operacional">
@@ -58,7 +60,11 @@ export default function Budgets() {
               <div><span>Valor sugerido</span><strong>R$ 680,00</strong></div>
               <div><span>Margem</span><strong>62%</strong></div>
             </div>
-            <Button icon={<Calculator size={16} />} onClick={() => { setModalOpen(false); showToast("Orçamento calculado visualmente.", "success"); }}>
+            <Button
+              icon={<Calculator size={16} />}
+              loading={isPending("budget-calc")}
+              onClick={() => runDemoAction("budget-calc", "Orçamento calculado visualmente.", { onComplete: () => setModalOpen(false) })}
+            >
               Calcular orçamento
             </Button>
           </div>

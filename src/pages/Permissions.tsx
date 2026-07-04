@@ -1,11 +1,16 @@
-import { KeyRound, ShieldCheck } from "lucide-react";
+﻿import { KeyRound, ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
 import { SectionCard } from "../components/ui/Card";
 import DataTable from "../components/ui/DataTable";
+import Input from "../components/ui/Input";
+import Modal from "../components/ui/Modal";
 import PageHeader from "../components/ui/PageHeader";
+import Select from "../components/ui/Select";
 import StatusBadge from "../components/ui/StatusBadge";
 import { auditLogs, permissionMatrix, professionals } from "../data/mockData";
+import { useDemoAction } from "../hooks/useDemoAction";
 
 interface PermissionRow {
   area: string;
@@ -23,6 +28,9 @@ const renderAccess = (value: boolean | string) => {
 };
 
 export default function Permissions() {
+  const { isPending, runDemoAction } = useDemoAction();
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <PermissionGuard permission="permissions">
       <div className="page">
@@ -30,7 +38,7 @@ export default function Permissions() {
           eyebrow="Permissões visuais"
           title="Perfis de acesso por função sem autenticação real."
           description="O seletor do header demonstra como a interface muda para Admin, Gerente, Recepção, Profissional e Estoque."
-          actions={<Button icon={<KeyRound size={16} />}>Novo usuário visual</Button>}
+          actions={<Button icon={<KeyRound size={16} />} onClick={() => setModalOpen(true)}>Novo usuário visual</Button>}
         />
 
         <div className="page-grid">
@@ -73,6 +81,17 @@ export default function Permissions() {
             </SectionCard>
           </div>
         </div>
+
+        <Modal open={modalOpen} title="Novo usuário visual" onClose={() => setModalOpen(false)}>
+          <div className="compact-form">
+            <label>Nome<Input defaultValue="Equipe Recepção BRC" /></label>
+            <label>Perfil<Select defaultValue="Recepção"><option>Admin</option><option>Gerente</option><option>Recepção</option><option>Profissional</option><option>Estoque</option></Select></label>
+            <div className="notice">Cadastro apenas demonstrativo. Nenhum usuário real será criado.</div>
+            <Button loading={isPending("permission-user")} onClick={() => runDemoAction("permission-user", "Usuário visual criado e permissões aplicadas na matriz.", { onComplete: () => setModalOpen(false) })}>
+              Salvar usuário visual
+            </Button>
+          </div>
+        </Modal>
       </div>
     </PermissionGuard>
   );
