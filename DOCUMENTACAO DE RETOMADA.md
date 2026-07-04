@@ -42,3 +42,26 @@ O usuario informou o repositorio GitHub `projetobrc04-sys/SISTEMA-BRC.git` e det
 - Resultado: falhou com erro `403`.
 - Motivo informado pelo GitHub: `Permission to projetobrc04-sys/SISTEMA-BRC.git denied to SAMUCA822`.
 - Proxima acao necessaria: liberar permissao de escrita para o usuario GitHub autenticado neste computador ou autenticar com uma conta/token que tenha acesso ao repositorio.
+
+## 2026-07-04 00:03:55 -03:00
+
+### Solicitacao recebida
+
+O usuario perguntou se deveria enviar o link SSH e em seguida informou:
+
+`git@github.com:projetobrc04-sys/SISTEMA-BRC.git`
+
+### Acao realizada
+
+- Remote `origin` alterado para SSH: `git@github.com:projetobrc04-sys/SISTEMA-BRC.git`.
+- Tentativa de push executada com `git push origin main`.
+
+### Resultado
+
+- Push por SSH falhou com `Permission denied (publickey)`.
+- Conclusao: a chave SSH desta maquina nao esta autorizada no GitHub para esse repositorio, ou nao existe chave SSH configurada para a conta correta.
+- Estado atual: commits locais existem, mas ainda nao foram enviados ao GitHub.
+
+### Proxima acao necessaria
+
+- Adicionar a chave SSH desta maquina ao GitHub com permissao no repositorio, ou autenticar outra credencial com acesso de escrita.
