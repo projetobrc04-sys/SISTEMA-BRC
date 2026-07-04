@@ -197,30 +197,75 @@ O usuario enviou prints dos logs do Vercel mostrando dois avisos com triangulo l
 ### Solicitacoes recebidas
 
 - O usuario pediu para instalar a skill de loop/autocorrecao para manter o agente iterando ate finalizar.
-- O usuario informou o repositorio pbakaus/impeccable.git e pediu para instalar junto.
-- O usuario informou a skill reshtechbro/claudedesignskills/.claude/skills/motion-framer/SKILL.md e pediu para instalar tambem a skill de Framer Motion / Motion UI.
+- O usuario informou o repositorio `pbakaus/impeccable.git` e pediu para instalar junto.
+- O usuario informou a skill `freshtechbro/claudedesignskills/.claude/skills/motion-framer/SKILL.md` e pediu para instalar tambem a skill de Framer Motion / Motion UI.
 
 ### Melhorias feitas
 
-- Criada e validada a skill local delivery-loop em ~/.codex/skills/delivery-loop, com protocolo de inspecionar, implementar, validar, corrigir, documentar, commitar e subir.
-- Instalada e validada a skill impeccable a partir de pbakaus/impeccable, com copia global em ~/.codex/skills/impeccable, copia user-wide em ~/.agents/skills/impeccable e copia local em .agents/skills/impeccable.
-- Corrigido o frontmatter da impeccable para compatibilidade com o validador atual do Codex, movendo ersion para metadata.version.
-- Adicionado hook local do Codex em .codex/hooks.json para executar o detector visual da impeccable apos edicoes de UI.
-- Criado PRODUCT.md com o contexto estrategico do BRC BeautyOS, registrando o projeto como interface de produto, publico, proposito, personalidade de marca, anti-referencias e principios de design.
-- Criado .impeccable/live/config.json para live mode em projeto Vite/React usando index.html.
-- Adicionado .impeccable/live/sessions/ ao .gitignore para nao versionar sessoes locais do live mode.
-- Instalada e validada a skill motion-framer a partir de reshtechbro/claudedesignskills, com copia global em ~/.codex/skills/motion-framer, copia user-wide em ~/.agents/skills/motion-framer e copia local em .agents/skills/motion-framer.
+- Criada e validada a skill `delivery-loop` em `~/.codex/skills/delivery-loop`, com copia user-wide em `~/.agents/skills/delivery-loop` e copia local em `.agents/skills/delivery-loop`, com protocolo de inspecionar, implementar, validar, corrigir, documentar, commitar e subir.
+- Instalada e validada a skill `impeccable` a partir de `pbakaus/impeccable`, com copia global em `~/.codex/skills/impeccable`, copia user-wide em `~/.agents/skills/impeccable` e copia local em `.agents/skills/impeccable`.
+- Corrigido o frontmatter da `impeccable` para compatibilidade com o validador atual do Codex, movendo `version` para `metadata.version`.
+- Adicionado hook local do Codex em `.codex/hooks.json` para executar o detector visual da `impeccable` apos edicoes de UI.
+- Criado `PRODUCT.md` com o contexto estrategico do BRC BeautyOS, registrando o projeto como interface de produto, publico, proposito, personalidade de marca, anti-referencias e principios de design.
+- Criado `.impeccable/live/config.json` para live mode em projeto Vite/React usando `index.html`.
+- Adicionado `.impeccable/live/sessions/` ao `.gitignore` para nao versionar sessoes locais do live mode.
+- Instalada e validada a skill `motion-framer` a partir de `freshtechbro/claudedesignskills`, com copia global em `~/.codex/skills/motion-framer`, copia user-wide em `~/.agents/skills/motion-framer` e copia local em `.agents/skills/motion-framer`.
 
 ### Validacoes
 
-- delivery-loop: Skill is valid!.
-- impeccable: Skill is valid! na copia global e na copia local do projeto.
-- motion-framer: Skill is valid! usando Python em UTF-8 na copia global e na copia local do projeto.
-- 
-ode .agents/skills/impeccable/scripts/context.mjs passou a carregar PRODUCT.md corretamente e resolveu o projeto como register product.
-- 
-ode .agents/skills/impeccable/scripts/detect-csp.mjs retornou shape: null, sem CSP a corrigir.
+- `delivery-loop`: `Skill is valid!`.
+- `impeccable`: `Skill is valid!` na copia global e na copia local do projeto.
+- `motion-framer`: `Skill is valid!` usando Python em UTF-8 na copia global e na copia local do projeto.
+- `node .agents/skills/impeccable/scripts/context.mjs` passou a carregar `PRODUCT.md` corretamente e resolveu o projeto como register `product`.
+- `node .agents/skills/impeccable/scripts/detect-csp.mjs` retornou `shape: null`, sem CSP a corrigir.
+- Build validado com `npm run build`.
+- Commit criado e enviado: `d47848c Instala skills de design e delivery loop`.
 
 ### Observacao operacional
 
 - Para o Codex reconhecer novas skills globais na lista da proxima conversa, reiniciar/reabrir o Codex apos esta instalacao.
+
+## 2026-07-04 05:04:18 -03:00
+
+### Solicitacao recebida
+
+O usuario colou a analise do Claude sobre a fase atual do BRC BeautyOS: prototipo visual bonito para aprovacao da diretoria, ferramenta interna para equipe, sem pagamento e sem necessidade de banco real nesta etapa. O usuario pediu para instalar todas as skills citadas para reforcar design, shadcn, blocos de UI e boas praticas React/Vercel, preparando a proxima sessao apos reiniciar o Codex.
+
+### Decisao operacional
+
+- Mantida a decisao de nao adicionar backend, banco real, pagamento real ou integracao real nesta fase.
+- Supabase foi registrado como opcao futura adequada para login interno e banco quando o projeto sair da demo visual para produto funcional.
+- A prioridade continua sendo prototipo visual premium, navegavel, mockado e convincente para a diretoria da BRC Concept.
+
+### Skills instaladas
+
+- `frontend-design`, instalada de `anthropics/claude-code`, caminho `plugins/frontend-design/skills/frontend-design`.
+- `ui-ux-pro-max`, instalada de `nextlevelbuilder/ui-ux-pro-max-skill`, caminho `.claude/skills/ui-ux-pro-max`.
+- `shadcn`, instalada pela CLI oficial `npx skills add shadcn/ui`.
+- `migrate-radix-to-base`, instalada junto pela CLI oficial do shadcn/ui.
+- `shadcnblocks`, instalada de `masonjames/Shadcnblocks-Skill`, caminho `skills/shadcn-ui`, com nome normalizado para compatibilidade Codex.
+- `react-best-practices`, instalada de `vercel-labs/agent-skills`, caminho `skills/react-best-practices`.
+
+### Onde foram instaladas
+
+- Global Codex: `~/.codex/skills`.
+- User-wide agents: `~/.agents/skills`.
+- Projeto atual: `.agents/skills`.
+
+### Ajustes de compatibilidade
+
+- `shadcnblocks`: frontmatter `name` ajustado de `Shadcn UI & Blocks` para `shadcnblocks`, mantendo `display_name` em `metadata`.
+- `shadcn`: frontmatter `user-invocable` movido para `metadata.user-invocable`, porque o validador atual do Codex aceita apenas chaves padrao no frontmatter.
+- Criado/atualizado `skills-lock.json` pela CLI oficial de skills para registrar `shadcn` e `migrate-radix-to-base`.
+
+### Validacoes
+
+- Todas as novas skills foram validadas com `quick_validate.py` usando `PYTHONUTF8=1`.
+- Validacao passou na copia global do Codex e na copia local do projeto para: `frontend-design`, `ui-ux-pro-max`, `react-best-practices`, `shadcnblocks`, `shadcn` e `migrate-radix-to-base`.
+- Build validado com `npm run build`.
+
+### Observacoes importantes
+
+- A skill `shadcnblocks` esta instalada, mas blocos premium da ShadcnBlocks dependem de API key paga. Nenhuma chave foi criada, solicitada ou gravada.
+- O projeto ainda nao foi convertido para shadcn/ui nem recebeu `components.json`; isso fica para a proxima fase, se a decisao for migrar componentes ou adicionar blocos shadcn. Nesta etapa foram instaladas apenas as skills.
+- Reiniciar/reabrir o Codex e recomendado para que a proxima sessao carregue automaticamente as novas skills globais e locais.
