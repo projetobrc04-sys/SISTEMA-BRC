@@ -299,3 +299,35 @@ Todas as skills abaixo validaram como `Skill is valid!` na copia global e na cop
 ### Observacao operacional
 
 As skills estao instaladas e validas. Para uso de design com `impeccable`, a propria skill indicou o proximo passo interno: ler `reference/product.md` antes de produzir qualquer saida visual. O projeto ainda nao foi convertido para shadcn/ui; a skill shadcn esta pronta, mas a migracao/instalacao de componentes fica para uma proxima tarefa.
+## 2026-07-04 05:17:17 -03:00
+
+### Solicitacao recebida
+
+O usuario pediu para desinstalar `shadcnblocks` e instalar `aceternity-ui` no lugar, usando o repositorio `https://github.com/secondsky/claude-skills` e o comando `npx skills add https://github.com/secondsky/claude-skills --skill aceternity-ui`.
+
+### Decisao operacional
+
+- `shadcnblocks` foi removida porque trazia dependencia de API key/camada paga para blocos premium.
+- `aceternity-ui` foi instalada porque combina melhor com a fase atual de demo visual premium: componentes React animados, Tailwind e Framer Motion.
+- Mantida a estrategia: usar `shadcn` para estrutura/base gratuita e `aceternity-ui` para efeitos visuais premium; guardar Kibo UI para fase posterior de dashboard/agenda com logica de estado.
+
+### Mudancas feitas
+
+- Removida a skill `shadcnblocks` de `.agents/skills/shadcnblocks`.
+- Removida a skill `shadcnblocks` de `~/.codex/skills/shadcnblocks`.
+- Removida a skill `shadcnblocks` de `~/.agents/skills/shadcnblocks`.
+- Instalada a skill `aceternity-ui` via CLI oficial `skills`.
+- Copiada `aceternity-ui` para `.agents/skills/aceternity-ui`.
+- Copiada `aceternity-ui` para `~/.codex/skills/aceternity-ui`.
+- Copiada `aceternity-ui` para `~/.agents/skills/aceternity-ui`.
+- Atualizado `skills-lock.json` com a origem `secondsky/claude-skills` e skill `aceternity-ui`.
+
+### Validacoes
+
+- `aceternity-ui` validou como `Skill is valid!` na copia local, global Codex e user-wide.
+- Confirmado que `shadcnblocks` nao existe mais em `.agents/skills`, `~/.codex/skills` nem `~/.agents/skills`.
+- Build local validado com `npm run build`.
+
+### Observacao operacional
+
+A skill `aceternity-ui` esta pronta para a proxima sessao. O projeto ainda nao recebeu componentes Aceternity nem dependencias de runtime como Framer Motion no `package.json`; isso deve acontecer apenas quando for aplicar os componentes na interface.
