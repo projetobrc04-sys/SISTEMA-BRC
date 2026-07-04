@@ -107,3 +107,17 @@ O usuario informou que adicionou o colaborador e pediu para verificar se havia p
 ### Observacao operacional
 
 Para o deploy funcionar no GitHub, o repositorio deve estar com Pages configurado para usar GitHub Actions em `Settings > Pages > Source > GitHub Actions`, caso o GitHub nao ative automaticamente pelo primeiro workflow.
+
+## 2026-07-04 00:13:00 -03:00
+
+### Fechamento da secao de deploy automatico
+
+- Build local validado com `npm run build` apos a configuracao de GitHub Pages.
+- Commit criado: `8915c37` com a mensagem `Configura deploy automatico no GitHub Pages`.
+- Push para `origin main` realizado com sucesso via HTTPS.
+- Resultado pratico: o repositorio agora tem workflow de GitHub Actions para build e deploy automatico a cada push na branch `main`.
+
+### Pendencia de verificacao externa
+
+- O GitHub CLI (`gh`) nao esta instalado nesta maquina, entao o status da Action nao foi consultado por CLI.
+- Se o primeiro deploy falhar no GitHub, verificar em `Settings > Pages` se a fonte esta configurada como `GitHub Actions`.
