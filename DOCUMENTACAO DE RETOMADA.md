@@ -121,3 +121,62 @@ Para o deploy funcionar no GitHub, o repositorio deve estar com Pages configurad
 
 - O GitHub CLI (`gh`) nao esta instalado nesta maquina, entao o status da Action nao foi consultado por CLI.
 - Se o primeiro deploy falhar no GitHub, verificar em `Settings > Pages` se a fonte esta configurada como `GitHub Actions`.
+
+## 2026-07-04 00:19:39 -03:00
+
+### Solicitacao recebida
+
+O usuario informou que conectou o Vercel ao GitHub e recebeu o dominio `https://sistema-brc.vercel.app/`, mas a aplicacao aparecia totalmente branca. Pediu verificacao do problema e perguntou se seria possivel conectar com o Vercel.
+
+### Diagnostico
+
+- O projeto estava com `base: "/SISTEMA-BRC/"` no `vite.config.ts`, configuracao correta para GitHub Pages em repositorio, mas incorreta para Vercel no dominio raiz.
+- No Vercel, o HTML tentava carregar assets em `/SISTEMA-BRC/assets/...`, enquanto o build do Vercel publica os assets em `/assets/...`.
+- Isso explica a tela branca: o JavaScript/CSS principal nao era carregado corretamente no dominio do Vercel.
+
+### Melhorias feitas
+
+- Alterado `vite.config.ts` para `base: "/"`, adequado ao deploy no Vercel.
+- Criado script `npm run build:github` com `vite build --base=/SISTEMA-BRC/` para manter compatibilidade com GitHub Pages.
+- Atualizado `.github/workflows/deploy.yml` para usar `npm run build:github` no deploy automatico do GitHub Pages.
+- Mantido `npm run build` como build padrao para Vercel.
+
+### Resultado esperado
+
+- Proximo push na branch `main` deve disparar novo deploy no Vercel e corrigir a tela branca em `https://sistema-brc.vercel.app/`.
+- GitHub Pages continua funcional porque usa o build especifico `build:github`.
+
+## 2026-07-04 00:22:54 -03:00
+
+### Solicitacao recebida
+
+O usuario enviou prints dos logs do Vercel mostrando dois avisos com triangulo laranja e pediu para verificar o que aconteceu.
+
+### Diagnostico
+
+- Aviso 1: `npm warn deprecated recharts@2.15.4`, indicando que a linha 2.x do Recharts nao esta mais ativa.
+- Aviso 2: `Some chunks are larger than 500 kB after minification`, indicando bundle grande gerado pelo Vite.
+- Ambos eram warnings, nao erros: o deploy completou, mas eram pontos de qualidade que deveriam ser corrigidos.
+
+### Melhorias feitas
+
+- Atualizado `recharts` para a versao mais recente disponivel via `npm install recharts@latest`.
+- Atualizado `package-lock.json` com a nova arvore de dependencias.
+- Ajustado `vite.config.ts` com `manualChunks` para separar `react-vendor`, `charts`, `icons` e `vendor`.
+- Objetivo: remover o aviso de pacote deprecated e reduzir o chunk principal abaixo do limite de warning do Vite.
+
+## 2026-07-04 00:24:55 -03:00
+
+### Validacao das correcoes dos warnings
+
+- `npm run build` executado com sucesso para o build padrao do Vercel.
+- `npm run build:github` executado com sucesso para o build do GitHub Pages.
+- O warning de `recharts@2.15.4` deprecated foi removido apos atualizar Recharts.
+- O warning de chunk maior que 500 KB foi removido apos separar chunks de `react-vendor`, `charts` e `icons`.
+- Um warning intermediario de `Circular chunk` apareceu durante a primeira tentativa de chunking e foi corrigido removendo o chunk generico `vendor`.
+
+### Resultado esperado apos push
+
+- Vercel deve fazer novo deploy automaticamente a partir da branch `main`.
+- A tela branca em `https://sistema-brc.vercel.app/` deve ser corrigida porque o build padrao voltou a emitir assets na raiz `/assets/...`.
+- GitHub Pages continua usando `/SISTEMA-BRC/` por meio do script `build:github`.
