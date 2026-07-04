@@ -180,3 +180,47 @@ O usuario enviou prints dos logs do Vercel mostrando dois avisos com triangulo l
 - Vercel deve fazer novo deploy automaticamente a partir da branch `main`.
 - A tela branca em `https://sistema-brc.vercel.app/` deve ser corrigida porque o build padrao voltou a emitir assets na raiz `/assets/...`.
 - GitHub Pages continua usando `/SISTEMA-BRC/` por meio do script `build:github`.
+
+## 2026-07-04 00:28:15 -03:00
+
+### Validacao publica do Vercel
+
+- URL testada: `https://sistema-brc.vercel.app/`.
+- HTML retornou status `200`.
+- Asset principal JavaScript retornou status `200` em `/assets/index-D7bURMk6.js`.
+- Confirmado que o HTML usa `/assets/...` e nao usa mais `/SISTEMA-BRC/assets/...` no deploy do Vercel.
+- Renderizacao verificada no navegador interno: pagina mostrou `BRC BeautyOS`, botao `Entrar no sistema` e rota `#/login`.
+- Conclusao: a tela branca do Vercel foi corrigida.
+
+## 2026-07-04 04:37:05 -03:00
+
+### Solicitacoes recebidas
+
+- O usuario pediu para instalar a skill de loop/autocorrecao para manter o agente iterando ate finalizar.
+- O usuario informou o repositorio pbakaus/impeccable.git e pediu para instalar junto.
+- O usuario informou a skill reshtechbro/claudedesignskills/.claude/skills/motion-framer/SKILL.md e pediu para instalar tambem a skill de Framer Motion / Motion UI.
+
+### Melhorias feitas
+
+- Criada e validada a skill local delivery-loop em ~/.codex/skills/delivery-loop, com protocolo de inspecionar, implementar, validar, corrigir, documentar, commitar e subir.
+- Instalada e validada a skill impeccable a partir de pbakaus/impeccable, com copia global em ~/.codex/skills/impeccable, copia user-wide em ~/.agents/skills/impeccable e copia local em .agents/skills/impeccable.
+- Corrigido o frontmatter da impeccable para compatibilidade com o validador atual do Codex, movendo ersion para metadata.version.
+- Adicionado hook local do Codex em .codex/hooks.json para executar o detector visual da impeccable apos edicoes de UI.
+- Criado PRODUCT.md com o contexto estrategico do BRC BeautyOS, registrando o projeto como interface de produto, publico, proposito, personalidade de marca, anti-referencias e principios de design.
+- Criado .impeccable/live/config.json para live mode em projeto Vite/React usando index.html.
+- Adicionado .impeccable/live/sessions/ ao .gitignore para nao versionar sessoes locais do live mode.
+- Instalada e validada a skill motion-framer a partir de reshtechbro/claudedesignskills, com copia global em ~/.codex/skills/motion-framer, copia user-wide em ~/.agents/skills/motion-framer e copia local em .agents/skills/motion-framer.
+
+### Validacoes
+
+- delivery-loop: Skill is valid!.
+- impeccable: Skill is valid! na copia global e na copia local do projeto.
+- motion-framer: Skill is valid! usando Python em UTF-8 na copia global e na copia local do projeto.
+- 
+ode .agents/skills/impeccable/scripts/context.mjs passou a carregar PRODUCT.md corretamente e resolveu o projeto como register product.
+- 
+ode .agents/skills/impeccable/scripts/detect-csp.mjs retornou shape: null, sem CSP a corrigir.
+
+### Observacao operacional
+
+- Para o Codex reconhecer novas skills globais na lista da proxima conversa, reiniciar/reabrir o Codex apos esta instalacao.

@@ -8,3 +8,4 @@ tsconfig.tsbuildinfo
 tsconfig.node.tsbuildinfo
 .DS_Store
 Thumbs.db
+.impeccable/live/sessions/

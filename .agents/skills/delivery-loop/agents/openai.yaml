@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delivery Loop"
+  short_description: "Iterar, validar, corrigir e publicar"
+  default_prompt: "Use $delivery-loop para executar uma melhoria ate build, validacao, documentacao, commit e push."
