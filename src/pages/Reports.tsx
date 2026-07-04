@@ -1,4 +1,4 @@
-﻿import { BarChart3, Download } from "lucide-react";
+import { BarChart3, Download } from "lucide-react";
 import { useState } from "react";
 import { Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, Cell, XAxis, CartesianGrid } from "recharts";
 import PermissionGuard from "../components/brc/PermissionGuard";
@@ -22,8 +22,8 @@ export default function Reports() {
       <div className="page">
         <PageHeader
           eyebrow="Relatórios e BI"
-          title="Indicadores para decidir agenda, estoque, serviços e margem."
-          description="Relatórios mockados em Recharts para demonstrar como a diretoria visualizaria a operação em tempo real."
+          title="Relatórios"
+          description="Período semanal · agenda, estoque, margem e recorrência."
           actions={
             <>
               <Button variant="secondary" icon={<Download size={16} />} loading={isPending("reports-export")} onClick={() => runDemoAction("reports-export", "PDF visual preparado para a apresentação.")}>Exportar PDF visual</Button>

@@ -1,4 +1,4 @@
-﻿import { Plus, ReceiptText } from "lucide-react";
+import { Plus, ReceiptText } from "lucide-react";
 import { useState } from "react";
 import CommandDrawer from "../components/brc/CommandDrawer";
 import PermissionGuard from "../components/brc/PermissionGuard";
@@ -34,8 +34,8 @@ export default function Commands() {
       <div className="page">
         <PageHeader
           eyebrow="Comandas e checkout manual"
-          title="Fluxo operacional com consumo de insumos por gramas e mililitros."
-          description="A tela demonstra o problema central da operação: serviço, produto vendido, baixa técnica, custo e pagamento na mesma visão."
+          title="Comandas"
+          description="7 comandas abertas · 2 aguardando pagamento."
           actions={
             <Button
               icon={<Plus size={16} />}

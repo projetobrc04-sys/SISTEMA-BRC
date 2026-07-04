@@ -1,4 +1,4 @@
-﻿import { KeyRound, ShieldCheck } from "lucide-react";
+import { KeyRound, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
@@ -36,8 +36,8 @@ export default function Permissions() {
       <div className="page">
         <PageHeader
           eyebrow="Permissões visuais"
-          title="Perfis de acesso por função sem autenticação real."
-          description="O seletor do header demonstra como a interface muda para Admin, Gerente, Recepção, Profissional e Estoque."
+          title="Permissões"
+          description="5 perfis operacionais · matriz de acesso visual."
           actions={<Button icon={<KeyRound size={16} />} onClick={() => setModalOpen(true)}>Novo usuário visual</Button>}
         />
 

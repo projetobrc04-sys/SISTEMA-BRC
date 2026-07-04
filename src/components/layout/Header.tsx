@@ -1,4 +1,4 @@
-﻿import { Menu, Search, ShieldCheck } from "lucide-react";
+import { Menu, Search, ShieldCheck } from "lucide-react";
 import type { Role } from "../../types";
 import { useAppContext } from "../../state/AppContext";
 import { roleDescription } from "../../utils/permissions";
@@ -20,7 +20,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
         </div>
         <div>
           <span className="eyebrow">BRC BeautyOS</span>
-          <strong>Operação premium Bruno Ribeiro Concept</strong>
+          <strong>Operação BRC Concept</strong>
         </div>
       </div>
       <button className="topbar-search" type="button" onClick={() => showToast("Busca global visual: cliente Mariana Alves, comanda #1022 e orçamento ORC-0883 encontrados.", "info")}>

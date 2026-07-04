@@ -1,4 +1,4 @@
-﻿import { Calculator, Plus } from "lucide-react";
+import { Calculator, Plus } from "lucide-react";
 import { useState } from "react";
 import BudgetSummaryCard from "../components/brc/BudgetSummaryCard";
 import PermissionGuard from "../components/brc/PermissionGuard";
@@ -24,8 +24,8 @@ export default function Budgets() {
       <div className="page">
         <PageHeader
           eyebrow="Simulador de orçamento"
-          title="Preço técnico claro antes de virar comanda."
-          description="Profissional monta orçamento durante atendimento com insumos previstos, custo técnico, tempo, valor sugerido e margem visual."
+          title="Orçamentos"
+          description="4 orçamentos ativos · R$ 2.870 em potencial."
           actions={<Button icon={<Plus size={16} />} onClick={() => setModalOpen(true)}>Novo orçamento</Button>}
         />
 

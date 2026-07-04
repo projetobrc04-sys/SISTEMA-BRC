@@ -1,4 +1,4 @@
-﻿import { AlertTriangle, Download, PackageCheck, Plus } from "lucide-react";
+import { AlertTriangle, Download, PackageCheck, Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import StockStatusBadge from "../components/brc/StockStatusBadge";
@@ -38,8 +38,8 @@ export default function Stock() {
       <div className="page">
         <PageHeader
           eyebrow="Estoque técnico"
-          title="Produtos, insumos e descartáveis com status operacional."
-          description="Controle visual por gramas, mililitros, unidade e pacote, com alertas de baixo estoque e vencimento."
+          title="Estoque"
+          description="20 itens cadastrados · 6 em atenção · 3 críticos."
           actions={
             <>
               <Button variant="secondary" icon={<Download size={16} />} loading={isPending("stock-export")} onClick={() => runDemoAction("stock-export", "Relatório visual de estoque preparado.")}>Exportar visual</Button>

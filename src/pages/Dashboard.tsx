@@ -1,4 +1,4 @@
-﻿import { AlertTriangle, CalendarDays, Crown, Package, ReceiptText, Sparkles } from "lucide-react";
+import { AlertTriangle, CalendarDays, Crown, Gift, Package, ReceiptText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import PermissionGuard from "../components/brc/PermissionGuard";
@@ -25,8 +25,8 @@ export default function Dashboard() {
       <div className="page">
         <PageHeader
           eyebrow="Dashboard executivo"
-          title="Controle premium da operação BRC em tempo real."
-          description="Agenda, caixa, estoque técnico, orçamentos e performance reunidos em uma primeira tela pronta para reunião de diretoria."
+          title="Dashboard"
+          description="Hoje: 32 agendamentos · 7 comandas abertas · R$ 8.740 no caixa."
           actions={
             <Button
               icon={<CalendarDays size={16} />}
@@ -38,12 +38,17 @@ export default function Dashboard() {
           }
         />
 
-        <div className="page-grid">
-          {dashboardMetrics.map((metric, index) => (
-            <div className={index < 2 ? "span-3" : "span-3"} key={metric.label}>
-              <StatCard label={metric.label} value={metric.value} trend={metric.trend} />
-            </div>
-          ))}
+        <div className="page-grid dashboard-kpis">
+          {dashboardMetrics.map((metric, index) => {
+            const variant = index === 1 ? "primary" : index === 0 ? "accent" : "secondary";
+            const span = index === 1 ? "span-6" : "span-3";
+
+            return (
+              <div className={span} key={metric.label}>
+                <StatCard label={metric.label} value={metric.value} trend={metric.trend} variant={variant} />
+              </div>
+            );
+          })}
         </div>
 
         <div className="page-grid">
@@ -125,7 +130,7 @@ export default function Dashboard() {
                 <div className="line-item"><span>Wella Blondor abaixo do mínimo</span><Package color="#F59E0B" size={17} /></div>
                 <div className="line-item"><span>2 no-shows aguardando remarcação</span><AlertTriangle color="#EF4444" size={17} /></div>
                 <div className="line-item"><span>4 orçamentos sem aprovação</span><ReceiptText color="#D6B56D" size={17} /></div>
-                <div className="line-item"><span>3 aniversariantes para campanha VIP</span><Sparkles color="#D6B56D" size={17} /></div>
+                <div className="line-item"><span>3 aniversariantes para campanha VIP</span><Gift color="#D6B56D" size={17} /></div>
               </div>
             </SectionCard>
           </div>

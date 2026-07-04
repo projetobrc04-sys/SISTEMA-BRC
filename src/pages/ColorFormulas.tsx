@@ -1,4 +1,4 @@
-﻿import { FlaskConical } from "lucide-react";
+import { FlaskConical } from "lucide-react";
 import { useState } from "react";
 import FormulaSuggestionCard from "../components/brc/FormulaSuggestionCard";
 import PermissionGuard from "../components/brc/PermissionGuard";
@@ -30,8 +30,8 @@ export default function ColorFormulas() {
       <div className="page">
         <PageHeader
           eyebrow="Fórmulas de coloração"
-          title="Sugestão técnica comparando qualidade, margem e estoque."
-          description="A decisão final segue sendo do profissional, mas o sistema mostra alternativas com custo técnico e disponibilidade."
+          title="Fórmulas"
+          description="3 sugestões técnicas comparando custo, margem e estoque."
           actions={<Button icon={<FlaskConical size={16} />} loading={isPending("formula-simulate")} onClick={() => runDemoAction("formula-simulate", "Fórmula simulada com estoque, custo e margem visual.", { onComplete: () => setSimulated(true) })}>Simular fórmula</Button>}
         />
 

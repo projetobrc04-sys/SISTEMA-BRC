@@ -1,6 +1,7 @@
-﻿import { CalendarClock, Lock, Settings2, Star } from "lucide-react";
+import { CalendarClock, Lock, Settings2, Star } from "lucide-react";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
+import Avatar from "../components/ui/Avatar";
 import { SectionCard } from "../components/ui/Card";
 import PageHeader from "../components/ui/PageHeader";
 import StatusBadge from "../components/ui/StatusBadge";
@@ -19,8 +20,8 @@ export default function Professionals() {
       <div className="page">
         <PageHeader
           eyebrow="Profissionais e comissões"
-          title="Produção, agenda, ocupação e metas por profissional."
-          description="Admin vê comissões e regras. Recepção fica na visão operacional, sem dados estratégicos."
+          title="Profissionais"
+          description="6 profissionais · ocupação média em leitura operacional."
           actions={sensitive ? (
             <Button icon={<Settings2 size={16} />} loading={isPending("professional-rules")} onClick={() => runDemoAction("professional-rules", "Regras de comissão abertas em modo visual.", { tone: "info" })}>Configurar regras</Button>
           ) : (
@@ -33,7 +34,7 @@ export default function Professionals() {
             <article className="span-4 pro-card card" key={professional.id}>
               <div className="appointment-main">
                 <div>
-                  <div className="brc-logo-mark" style={{ width: 48, height: 48 }}><span>{professional.avatar}</span></div>
+                  <Avatar name={professional.name} label={professional.avatar} size="lg" />
                   <h3 style={{ marginTop: 12 }}>{professional.name}</h3>
                   <p>{professional.role}</p>
                 </div>

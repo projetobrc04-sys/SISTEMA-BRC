@@ -1,8 +1,9 @@
-﻿import { Plus, Search, UserRoundCheck } from "lucide-react";
+import { Plus, Search, UserRoundCheck } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
+import Avatar from "../components/ui/Avatar";
 import { SectionCard } from "../components/ui/Card";
 import DataTable from "../components/ui/DataTable";
 import Input from "../components/ui/Input";
@@ -48,8 +49,8 @@ export default function Clients() {
       <div className="page">
         <PageHeader
           eyebrow="CRM e prontuário"
-          title="Base de clientes com contexto comercial e técnico."
-          description="A recepção vê dados de contato, a gestão enxerga valor, e o profissional abre o prontuário capilar sem depender de memória."
+          title="Clientes"
+          description="16 clientes mockadas · VIPs, inativas e pacotes ativos."
           actions={<Button icon={<Plus size={16} />} onClick={() => setModalOpen(true)}>Nova cliente</Button>}
         />
 
@@ -86,7 +87,7 @@ export default function Clients() {
             rows={filtered}
             columns={[
               { header: "ID", cell: (row) => row.id },
-              { header: "Cliente", cell: (row) => <Link to={`/clientes/${row.id}`}><strong>{row.name}</strong></Link> },
+              { header: "Cliente", cell: (row) => <Link className="person-cell" to={`/clientes/${row.id}`}><Avatar name={row.name} /><span><strong>{row.name}</strong><small>{row.status[0]}</small></span></Link> },
               { header: "Telefone", cell: (row) => row.phone },
               { header: "Instagram", cell: (row) => row.instagram },
               { header: "Última visita", cell: (row) => row.lastVisit },

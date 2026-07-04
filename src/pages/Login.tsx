@@ -1,16 +1,17 @@
-import { LockKeyhole, Sparkles } from "lucide-react";
+import { Headset, LockKeyhole, PackageSearch, Scissors, ShieldCheck, type LucideIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import BrcLogo from "../components/brc/BrcLogo";
+import BeautyStrands from "../components/effects/BeautyStrands";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { useAppContext } from "../state/AppContext";
 import type { Role } from "../types";
 
-const quickProfiles: { label: Role; email: string }[] = [
-  { label: "Admin", email: "admin@brc.com" },
-  { label: "Recep\u00e7\u00e3o", email: "recepcao@brc.com" },
-  { label: "Profissional", email: "profissional@brc.com" },
-  { label: "Estoque", email: "estoque@brc.com" },
+const quickProfiles: { label: Role; email: string; icon: LucideIcon }[] = [
+  { label: "Admin", email: "admin@brc.com", icon: ShieldCheck },
+  { label: "Recepção", email: "recepcao@brc.com", icon: Headset },
+  { label: "Profissional", email: "profissional@brc.com", icon: Scissors },
+  { label: "Estoque", email: "estoque@brc.com", icon: PackageSearch },
 ];
 
 export default function Login() {
@@ -24,11 +25,12 @@ export default function Login() {
   };
 
   return (
-    <main className="login-shell subtle-grid">
+    <main className="login-shell">
       <section className="login-brand">
+        <BeautyStrands />
         <BrcLogo size="lg" />
         <div>
-          <span className="eyebrow">Beauty experience operacional</span>
+          <span className="eyebrow">Ateliê operacional BRC</span>
           <h1>BRC BeautyOS</h1>
           <p>
             Sistema proprietário de gestão premium para agenda, clientes, comandas,
@@ -68,17 +70,20 @@ export default function Login() {
         <div className="drawer-section" style={{ marginTop: 18 }}>
           <h4>Acesso rápido com perfis</h4>
           <div className="mini-grid">
-            {quickProfiles.map((profile) => (
-              <Button
-                key={profile.label}
-                variant="secondary"
-                icon={<Sparkles size={15} />}
-                onClick={() => enter(profile.label)}
-                title={profile.email}
-              >
-                {profile.label}
-              </Button>
-            ))}
+            {quickProfiles.map((profile) => {
+              const Icon = profile.icon;
+              return (
+                <Button
+                  key={profile.label}
+                  variant="secondary"
+                  icon={<Icon size={15} />}
+                  onClick={() => enter(profile.label)}
+                  title={profile.email}
+                >
+                  {profile.label}
+                </Button>
+              );
+            })}
           </div>
         </div>
         <div className="notice" style={{ marginTop: 16 }}>
@@ -88,5 +93,3 @@ export default function Login() {
     </main>
   );
 }
-
-

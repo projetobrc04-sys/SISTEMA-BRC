@@ -9,8 +9,8 @@ import {
   KeyRound,
   Package,
   ReceiptText,
+  Scissors,
   Settings,
-  Sparkles,
   Users,
   WalletCards,
 } from "lucide-react";
@@ -27,7 +27,7 @@ const navItems = [
   { label: "Orçamentos", to: "/orcamentos", icon: ClipboardList, permission: "budgets" },
   { label: "Fórmulas", to: "/formulas-coloracao", icon: FlaskConical, permission: "formulas" },
   { label: "Estoque", to: "/estoque", icon: Package, permission: "stock" },
-  { label: "Profissionais", to: "/profissionais", icon: Sparkles, permission: "professionals" },
+  { label: "Profissionais", to: "/profissionais", icon: Scissors, permission: "professionals" },
   { label: "Caixa", to: "/caixa", icon: WalletCards, permission: "cashier" },
   { label: "Financeiro", to: "/financeiro", icon: CreditCard, permission: "financial" },
   { label: "Relatórios", to: "/relatorios", icon: BarChart3, permission: "reports" },
@@ -56,8 +56,8 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         })}
       </nav>
       <div className="sidebar-foot">
-        <span>Beauty experience</span>
-        <strong>Visual beta executivo</strong>
+        <strong>BRC Concept</strong>
+        <span>Operação 2026</span>
       </div>
     </aside>
   );

@@ -1,4 +1,4 @@
-﻿import { Banknote, CreditCard, LockKeyhole, WalletCards } from "lucide-react";
+import { Banknote, CreditCard, LockKeyhole, WalletCards } from "lucide-react";
 import { useState } from "react";
 import PermissionGuard from "../components/brc/PermissionGuard";
 import Button from "../components/ui/Button";
@@ -29,8 +29,8 @@ export default function Cashier() {
       <div className="page">
         <PageHeader
           eyebrow="Caixa e recebimentos"
-          title="Fluxo operacional de abertura, recebimentos, sangria e fechamento."
-          description="Recepção opera o caixa sem acessar DRE, lucro líquido ou dados estratégicos."
+          title="Caixa"
+          description="Caixa visual aberto · R$ 8.740 em entradas."
           actions={
             <>
               <Button

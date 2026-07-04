@@ -1,10 +1,10 @@
-﻿import PremiumAura from "../effects/PremiumAura";
+import BeautyStrands from "../effects/BeautyStrands";
 import BrcLogo from "./BrcLogo";
 
 export default function BrcHero({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <section className="brc-hero subtle-grid">
-      <PremiumAura />
+    <section className="brc-hero">
+      <BeautyStrands />
       <div className="brc-hero-logo">
         <BrcLogo size="lg" />
       </div>

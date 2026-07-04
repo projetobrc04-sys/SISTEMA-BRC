@@ -1,4 +1,4 @@
-﻿import { ArrowLeft, CalendarPlus, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowLeft, CalendarPlus, MessageCircle, ReceiptText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ClientProfileTabs from "../components/brc/ClientProfileTabs";
@@ -68,7 +68,7 @@ export default function ClientProfile() {
           <div className="span-4">
             <SectionCard title="Comandas e pagamentos" eyebrow="Operação">
               {clientCommands.length ? clientCommands.map((command) => (
-                <div className="line-item" key={command.id}><span>{command.id} - {command.status}</span><Sparkles size={16} color="#D6B56D" /></div>
+                <div className="line-item" key={command.id}><span>{command.id} - {command.status}</span><ReceiptText size={16} color="#D6B56D" /></div>
               )) : <p className="muted">Sem comandas abertas nesta demonstração.</p>}
               <div className="notice">Termos assinados: imagem e procedimento químico.</div>
             </SectionCard>

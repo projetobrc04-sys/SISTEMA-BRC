@@ -1,4 +1,4 @@
-﻿import { BarChart3 } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import PermissionGuard from "../components/brc/PermissionGuard";
@@ -26,8 +26,8 @@ export default function Financial() {
       <div className="page">
         <PageHeader
           eyebrow="Financeiro e DRE visual"
-          title="Faturamento, despesas, comissões, insumos e lucro estimado."
-          description="Área restrita para Admin/Gerente. Perfis operacionais recebem acesso restrito."
+          title="Financeiro"
+          description="Área restrita Admin/Gerente · margem visual 29,8%."
           actions={<Button icon={<BarChart3 size={16} />} loading={isPending("financial-dre")} onClick={() => runDemoAction("financial-dre", "DRE visual recalculada com dados mockados.", { onComplete: () => setGeneratedAt("DRE atualizada para apresentação executiva") })}>Gerar DRE visual</Button>}
         />
 

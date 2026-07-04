@@ -1,8 +1,8 @@
-﻿import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BrcLogo from "../components/brc/BrcLogo";
-import PremiumAura from "../components/effects/PremiumAura";
+import BeautyStrands from "../components/effects/BeautyStrands";
 import Button from "../components/ui/Button";
 import { SectionCard } from "../components/ui/Card";
 import Input from "../components/ui/Input";
@@ -39,8 +39,8 @@ export default function OnlineBooking() {
           <Button variant="secondary" onClick={() => navigate("/login")}>Voltar ao sistema</Button>
         </header>
         <section className="booking-hero">
-          <div className="brc-hero subtle-grid">
-            <PremiumAura />
+          <div className="brc-hero">
+            <BeautyStrands />
             <div className="brc-hero-content">
               <BrcLogo size="lg" withText={false} />
               <h1>Agende sua beauty experience.</h1>

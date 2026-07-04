@@ -381,3 +381,70 @@ O usuario definiu a rodada como evolucao da base atual do BRC BeautyOS para um p
 
 - `npm run build:github` tambem foi executado com sucesso apos repetir fora do sandbox por causa de `spawn EPERM` do esbuild.
 - Resultado: build para GitHub Pages validado com `--base=/SISTEMA-BRC/`.
+
+## 2026-07-04 13:06:37 -03:00
+
+### Solicitacao recebida
+
+O usuario pediu uma rodada de refinamento visual para remover assinaturas reconheciveis de UI gerada por IA/Lovable/v0 no BRC BeautyOS, corrigindo antes os bugs reais de sobreposicao no header e na tela de Orcamentos. Escopo mantido front-end only, sem backend, pagamentos, WhatsApp real, banco real ou autenticacao real.
+
+### Skills aplicadas nesta secao
+
+- `delivery-loop`: ciclo de corrigir, auditar, validar, documentar, commit e push.
+- `impeccable`: auditoria visual contra anti-padroes e PRODUCT.md.
+- `ui-ux-pro-max`: decisao de hierarquia visual, superficies e tipografia editorial/atelie.
+- `aceternity-ui`: redirecionamento do efeito visual para fios/luz de beleza em Login/Apresentacao/Agendamento, sem aura generica.
+- `motion-framer`: microinteracoes sutis em status, rota e feedback de acao.
+
+### Antes descrito/reproduzido
+
+- Header interno deixava a busca global com cerca de 192px no desktop, enquanto o texto precisava de 279px; isso reproduzia o vazamento/colisao relatado em `Buscar cliente, comanda ou orcamento`.
+- Tela de Orcamentos e demais rotas ainda usavam titulos em formato de frase promocional, com leitura de landing page em vez de ferramenta operacional.
+- Dashboard tinha cards muito homogeneos e a metrica principal nao tinha peso suficiente.
+- Projeto ainda carregava sinais de template/IA: sparkle, aura generica, fonte Inter, gradiente/shimmer em botao principal e badge de beta no menu.
+- QA mobile encontrou overflow horizontal em Estoque, Caixa e Financeiro por spans de grid desktop e tabelas largas empurrando a viewport.
+
+### Melhorias feitas
+
+- Corrigido `Header` compartilhado: topbar desktop agora reserva largura real para a busca, aplica truncamento seguro nos blocos laterais e mantem layout proprio para tablet/mobile.
+- Corrigida a colisao de Orcamentos e de paginas internas por ajuste global de `content-wrap`, `page-header`, z-index/spacing e validacao em todas as rotas internas.
+- Troquei os titulos operacionais para nomes reais de modulo: Dashboard, Agenda, Clientes, Comandas, Orcamentos, Formulas, Estoque, Profissionais, Caixa, Financeiro, Relatorios, Permissoes e Configuracoes.
+- Dashboard passou a ter 3 niveis de superficie: KPI primario destacado, KPI acentuado e metricas secundarias neutras; setas de cards nao clicaveis foram removidas.
+- Tipografia refinada: `Cormorant Garamond` para wordmark/titulos de destaque e `Hanken Grotesk` para UI/dados, removendo Inter apos alerta da auditoria.
+- Removidos sparkle icons, shimmer/gradiente do botao principal, aura generica e badge `Visual beta executivo`/`Beauty experience` do menu.
+- Criado `BeautyStrands` como efeito de fios/luz ligado ao universo de beleza, aplicado com moderacao em Login, Hero BRC e Agendamento online.
+- Criado componente `Avatar` com iniciais e tons para Clientes e Profissionais.
+- Status badges receberam microtransicao com Motion, mantendo telas operacionais sem decoracao pesada.
+- Corrigido overflow horizontal mobile em Estoque, Caixa e Financeiro: spans colapsam para uma coluna e tabelas rolam dentro do card.
+
+### Prints depois gerados
+
+- Dashboard desktop: `qa-screenshots/after-dashboard-desktop.png` - mostra busca sem overflow, titulo operacional curto e KPI principal com hierarquia forte.
+- Orcamentos desktop: `qa-screenshots/after-orcamentos-desktop.png` - mostra titulo sem colisao com topbar e conteudo subindo para area funcional.
+- Login desktop: `qa-screenshots/after-login-desktop.png` - mostra tipografia editorial, botoes sem sparkle e elemento visual de fios/luz.
+- Dashboard mobile: `qa-screenshots/after-dashboard-mobile.png` - mostra topbar sem largura horizontal e cards empilhados corretamente.
+- Relatorio automatico: `qa-screenshots/visual-qa-report.json`.
+
+![Dashboard desktop](qa-screenshots/after-dashboard-desktop.png)
+
+![Orcamentos desktop](qa-screenshots/after-orcamentos-desktop.png)
+
+![Login desktop](qa-screenshots/after-login-desktop.png)
+
+![Dashboard mobile](qa-screenshots/after-dashboard-mobile.png)
+
+### Validacoes realizadas
+
+- `impeccable detect`: retornou `[]`, sem antipadroes detectados apos troca de fonte e limpeza visual.
+- QA visual via Chrome/Playwright local: 28 combinacoes de rota/viewport verificadas, `failures: []`.
+- Rotas verificadas em desktop e mobile: Dashboard, Agenda, Clientes, Comandas, Orcamentos, Formulas, Estoque, Profissionais, Caixa, Financeiro, Relatorios, Permissoes, Configuracoes e Apresentacao.
+- Resultado especifico do bug da busca: desktop passou de 192px para 345px, com `searchSpanClient=279`, `searchSpanScroll=279`, `searchOverflow=false`.
+- Resultado especifico de Orcamentos: `topbarBottom=91`, `headerTop=101`, `overlap=false`.
+- Resultado mobile: `horizontalOverflow=false` no QA final.
+- `npm run build`: sucesso, sem warning novo.
+- `npm run build:github`: sucesso, sem warning novo.
+
+### Observacoes
+
+- Login e Apresentacao mantem linguagem de impacto porque sao excecoes autorizadas no briefing.
+- Pagamento, WhatsApp real, banco de dados real e autenticacao real seguem fora de escopo.

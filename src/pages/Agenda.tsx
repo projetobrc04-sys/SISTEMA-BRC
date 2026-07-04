@@ -1,4 +1,4 @@
-﻿import { CalendarPlus, Clock, ListChecks } from "lucide-react";
+import { CalendarPlus, Clock, ListChecks } from "lucide-react";
 import { useMemo, useState } from "react";
 import AppointmentCard from "../components/brc/AppointmentCard";
 import CommandDrawer from "../components/brc/CommandDrawer";
@@ -53,8 +53,8 @@ export default function Agenda() {
       <div className="page">
         <PageHeader
           eyebrow="Agenda inteligente"
-          title="Visão diária por status, profissional e fluxo de chegada."
-          description="Recepção consegue confirmar, fazer check-in, abrir comanda e reagendar sem sair da tela central da operação."
+          title="Agenda"
+          description="32 agendamentos hoje · 6 profissionais em operação."
           actions={<Button icon={<CalendarPlus size={16} />} onClick={() => setModalOpen(true)}>Novo agendamento</Button>}
         />
 

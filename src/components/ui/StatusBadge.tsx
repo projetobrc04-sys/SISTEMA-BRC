@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import Badge, { type BadgeTone } from "./Badge";
 
 const toneByStatus: Record<string, BadgeTone> = {
@@ -14,7 +15,7 @@ const toneByStatus: Record<string, BadgeTone> = {
   Paga: "success",
   Normal: "success",
   Baixo: "warning",
-  Crítico: "danger",
+  "Crítico": "danger",
   Vencendo: "warning",
   Vencido: "danger",
   Nova: "info",
@@ -26,5 +27,9 @@ const toneByStatus: Record<string, BadgeTone> = {
 };
 
 export default function StatusBadge({ status }: { status: string }) {
-  return <Badge tone={toneByStatus[status] ?? "neutral"}>{status}</Badge>;
+  return (
+    <motion.span layout="position" initial={false} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.18, ease: "easeOut" }}>
+      <Badge tone={toneByStatus[status] ?? "neutral"}>{status}</Badge>
+    </motion.span>
+  );
 }
