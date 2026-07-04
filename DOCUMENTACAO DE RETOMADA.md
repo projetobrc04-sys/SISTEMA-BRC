@@ -26,3 +26,19 @@ O usuario informou o repositorio GitHub `projetobrc04-sys/SISTEMA-BRC.git` e det
 - Criado este arquivo `DOCUMENTACAO DE RETOMADA.md`.
 - Criado `.gitignore` para evitar commit de `node_modules`, `dist`, arquivos `.env`, logs e artefatos temporarios TypeScript.
 - Preparacao para inicializar Git local, configurar remote GitHub, criar commit e subir o projeto.
+
+## 2026-07-04 00:02:24 -03:00
+
+### Git e repositorio
+
+- Git local inicializado no projeto.
+- Branch local configurada como `main`.
+- Remote configurado: `https://github.com/projetobrc04-sys/SISTEMA-BRC.git`.
+- Commit inicial criado: `30e425d` com a mensagem `Adiciona beta visual BRC BeautyOS`.
+
+### Tentativa de envio ao GitHub
+
+- Comando executado: `git push origin main`.
+- Resultado: falhou com erro `403`.
+- Motivo informado pelo GitHub: `Permission to projetobrc04-sys/SISTEMA-BRC.git denied to SAMUCA822`.
+- Proxima acao necessaria: liberar permissao de escrita para o usuario GitHub autenticado neste computador ou autenticar com uma conta/token que tenha acesso ao repositorio.
