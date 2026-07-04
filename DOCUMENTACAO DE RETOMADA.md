@@ -65,3 +65,20 @@ O usuario perguntou se deveria enviar o link SSH e em seguida informou:
 ### Proxima acao necessaria
 
 - Adicionar a chave SSH desta maquina ao GitHub com permissao no repositorio, ou autenticar outra credencial com acesso de escrita.
+
+## 2026-07-04 00:05:02 -03:00
+
+### Solicitacao recebida
+
+O usuario solicitou: `COMITA NO GIT, O QUE FACO PARA VOCER TER ACESSO AO REPOSITORIO?`
+
+### Estado atual
+
+- Todas as alteracoes do projeto foram commitadas localmente.
+- Remote atual: `git@github.com:projetobrc04-sys/SISTEMA-BRC.git`.
+- Push ainda bloqueado porque o GitHub recusou HTTPS por permissao do usuario `SAMUCA822` e recusou SSH por falta de chave publica autorizada.
+
+### Orientacao para liberar acesso
+
+- Caminho recomendado: adicionar o usuario GitHub `SAMUCA822` como colaborador com permissao `Write` no repositorio `projetobrc04-sys/SISTEMA-BRC`.
+- Depois disso, o push podera ser repetido com `git push origin main`.
