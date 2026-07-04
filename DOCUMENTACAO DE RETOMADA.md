@@ -82,3 +82,28 @@ O usuario solicitou: `COMITA NO GIT, O QUE FACO PARA VOCER TER ACESSO AO REPOSIT
 
 - Caminho recomendado: adicionar o usuario GitHub `SAMUCA822` como colaborador com permissao `Write` no repositorio `projetobrc04-sys/SISTEMA-BRC`.
 - Depois disso, o push podera ser repetido com `git push origin main`.
+
+## 2026-07-04 00:10:41 -03:00
+
+### Solicitacao recebida
+
+O usuario informou que adicionou o colaborador e pediu para verificar se havia permissao e se seria possivel fazer deploy automaticamente toda vez.
+
+### Verificacao de permissao
+
+- Tentativa por SSH continuou falhando com `Permission denied (publickey)`, porque a chave SSH desta maquina nao esta autorizada.
+- O remote foi trocado para HTTPS: `https://github.com/projetobrc04-sys/SISTEMA-BRC.git`.
+- Push por HTTPS funcionou: a branch `main` foi criada no GitHub.
+- Conclusao: a permissao de escrita esta funcionando por HTTPS para o usuario autenticado localmente.
+
+### Melhorias feitas
+
+- Criado workflow `.github/workflows/deploy.yml` para deploy automatico no GitHub Pages em todo push na branch `main`.
+- Adicionado `workflow_dispatch` para permitir deploy manual pelo GitHub Actions.
+- Ajustado `vite.config.ts` com `base: "/SISTEMA-BRC/"` para funcionar corretamente em GitHub Pages de repositorio.
+- Trocado `BrowserRouter` por `HashRouter` em `src/main.tsx` para evitar erro 404 em rotas internas quando hospedado como site estatico no GitHub Pages.
+- Criado `public/.nojekyll` para evitar processamento Jekyll no GitHub Pages.
+
+### Observacao operacional
+
+Para o deploy funcionar no GitHub, o repositorio deve estar com Pages configurado para usar GitHub Actions em `Settings > Pages > Source > GitHub Actions`, caso o GitHub nao ative automaticamente pelo primeiro workflow.
