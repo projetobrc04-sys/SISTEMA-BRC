@@ -525,3 +525,87 @@ O usuario pediu teste completo do site no navegador local, com descoberta de bug
 ### Observacao
 
 - A Vercel esta entregando a tela de login publicada; nao reproduzi tela branca nesta checagem.
+## 2026-07-05 00:09:30 -03:00
+
+### Solicitacao recebida
+
+O usuario informou que o link fixo do Vercel e https://sistema-brc.vercel.app/#/login e pediu para usar o navegador local/integrado para navegar visualmente pelo deploy. Tambem relatou problema ao clicar nas abas/menu lateral: a URL mudava ou a navegacao parecia nao atualizar ate dar F5.
+
+### Link oficial guardado
+
+- Vercel: https://sistema-brc.vercel.app/#/login
+
+### Reproducao no navegador
+
+- Deploy aberto no navegador integrado e prints salvos em qa-vercel-navigation/.
+- Em 1440px, a sidebar desktop publicada navegou corretamente entre Clientes, Comandas, Agenda, Financeiro e Relatorios sem F5.
+- Em 1024px, o bug foi reproduzido: a sidebar desktop estava escondida, mas o botao Abrir menu tambem estava invisivel. Resultado: o usuario ficava em uma zona sem navegacao funcional entre 761px e 1180px.
+
+### Causa
+
+- src/styles/globals.css escondia a sidebar desktop em max-width 1180px.
+- O botao .mobile-only so aparecia em max-width 760px.
+- Uma regra posterior mais especifica .button.mobile-only tambem mantinha o botao escondido ate 760px.
+
+### Correcao aplicada
+
+- Alinhado o breakpoint de .mobile-only para aparecer ate 1180px.
+- Alinhado o breakpoint especifico .button.mobile-only para aparecer ate 1180px.
+- README atualizado com o link publico fixo da Vercel.
+- .gitignore atualizado para manter os prints locais qa-vercel-navigation/ fora do historico Git.
+
+### Validacao local apos correcao
+
+- 1024px: botao Abrir menu visivel, sidebar desktop escondida corretamente.
+- 1024px: drawer de navegacao abriu, link Clientes renderizou Clientes sem F5, link Comandas renderizou Comandas sem F5.
+- 1180px: menu visivel e sidebar desktop escondida.
+- 1181px: sidebar desktop visivel e menu escondido.
+- 1440px: sidebar desktop visivel e menu escondido.
+- impeccable detect: retornou lista vazia.
+
+### Prints locais desta secao
+
+- Antes no deploy: qa-vercel-navigation/13-public-1024-nav-gap-before-fix.png.
+- Depois local: qa-vercel-navigation/local-after-fix/02-local-1024-dashboard-menu-visible-after-css.png.
+- Drawer aberto: qa-vercel-navigation/local-after-fix/03-local-1024-mobile-nav-open.png.
+- Clientes apos clique: qa-vercel-navigation/local-after-fix/04-local-1024-clientes-after-click.png.
+- Comandas apos clique: qa-vercel-navigation/local-after-fix/05-local-1024-comandas-after-click.png.
+- Breakpoints: qa-vercel-navigation/local-after-fix/06-local-1180-boundary.png, 07-local-1181-boundary.png, 08-local-1440-desktop.png.
+
+## 2026-07-05 00:22:57 -03:00
+### Solicitacao recebida
+
+O usuario esclareceu que o bug principal nao era apenas o menu em breakpoint intermediario. O problema real era: ao clicar em Agenda, Clientes, Comandas, Orcamentos, Formulas, Estoque ou Financeiro, o menu lateral continuava visivel, mas o miolo da tela ficava preto/vazio ate dar F5.
+
+### Reproducao confirmada
+
+- Local normal: cliques com espera em Dashboard, Agenda, Clientes, Comandas, Orcamentos, Formulas, Estoque e Financeiro tinham DOM preenchido.
+- Vercel publicado: apos navegar por rotas, foi encontrado o estado quebrado em Financeiro: .page-motion tinha texto e headings, mas estava com estilo inline opacity: 0; transform: translateY(-8px).
+- Conclusao: o conteudo existia, mas estava invisivel por causa da animacao de saida da rota.
+
+### Causa real
+
+- AppShell.tsx usava AnimatePresence mode="wait" envolvendo o Outlet.
+- Em alguns fluxos de navegacao SPA, a transicao deixava a area .page-motion presa no estado de exit do Motion.
+- Isso produzia exatamente a tela preta relatada: sidebar/topbar visiveis e conteudo operacional invisivel ate reload.
+
+### Correcao aplicada
+
+- Removido AnimatePresence, motion.div e useReducedMotion da area principal em src/components/layout/AppShell.tsx.
+- Outlet agora fica dentro de uma div.page-motion comum, com key={location.pathname}.
+- Criada animacao CSS leve page-enter em src/styles/globals.css, com estado padrao sempre visivel: opacity 1 e transform none.
+- Adicionado fallback em prefers-reduced-motion: reduce para desligar a animacao sem esconder conteudo.
+- Mantida tambem a correcao anterior de breakpoint: menu mobile/tablet aparece ate 1180px.
+
+### Validacao no navegador local
+
+- Apos a correcao, cliquei em Agenda, Clientes, Comandas, Orcamentos, Formulas, Estoque, Financeiro e Relatorios.
+- Resultado: todas as rotas ficaram com pageOpacity=1, transform=matrix(... 0, 0), pageInlineStyle=null, texto preenchido e item ativo correto.
+- Teste de cliques rapidos tambem passou: rota final Agenda com pageOpacity=1 e texto preenchido.
+- Prints locais salvos em qa-route-blank/.
+
+### Validacoes tecnicas
+
+- node .agents/skills/impeccable/scripts/detect.mjs --json src: retornou lista vazia.
+- npm run build: sucesso.
+- npm run build:github: sucesso.

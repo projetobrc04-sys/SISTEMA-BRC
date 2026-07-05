@@ -211,6 +211,10 @@ a {
   .span-3 {
     grid-column: span 12;
   }
+
+  .mobile-only {
+    display: inline-flex;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1315,7 +1319,7 @@ a {
   display: none;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 1180px) {
   .button.mobile-only {
     display: inline-flex;
   }
@@ -1323,6 +1327,20 @@ a {
 
 .page-motion {
   min-width: 0;
+  opacity: 1;
+  transform: none;
+  animation: page-enter 150ms ease-out both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0.98;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .button {
@@ -1693,6 +1711,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .page-motion {
+    animation: none;
+  }
+
   .beauty-strands-svg,
   .beauty-strand {
     transition: none;

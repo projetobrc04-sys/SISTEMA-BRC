@@ -1,4 +1,4 @@
-﻿# BRC BeautyOS - Visual Beta
+# BRC BeautyOS - Visual Beta
 
 Protótipo front-end do sistema proprietário para administração do salão Bruno Ribeiro Concept.
 
@@ -42,6 +42,7 @@ npm run build:github
 
 ## Deploy
 
+- URL publica Vercel: https://sistema-brc.vercel.app/#/login
 - Vercel usa o build padrão `npm run build`, com assets na raiz `/assets/...`.
 - GitHub Pages usa `npm run build:github`, com base `/SISTEMA-BRC/`.
 - A aplicação usa rotas com hash para evitar 404 em hospedagem estática.

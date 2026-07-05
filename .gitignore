@@ -11,3 +11,5 @@ Thumbs.db
 .impeccable/live/sessions/
 qa-temp/
 qa-interaction-screenshots/
+qa-vercel-navigation/
+qa-route-blank/

@@ -54,3 +54,16 @@ Resultado final: nao restaram botoes ou links inertes identificados. Itens sem `
 - URL: https://sistema-brc.vercel.app/#/login.
 - Resultado: renderizacao confirmada no Chrome headless, texto BRC e botao Entrar no sistema presentes, sem console/page errors.
 - Print local: qa-interaction-screenshots/public-login-after-push.png.
+## Navegacao Vercel responsiva - 2026-07-05 00:09:30 -03:00
+
+- Bug reproduzido em https://sistema-brc.vercel.app/#/login no viewport 1024px: sidebar desktop escondida e botao Abrir menu invisivel.
+- Causa: breakpoints divergentes entre sidebar (1180px) e .button.mobile-only (760px).
+- Correcao: menu mobile/tablet aparece ate 1180px.
+- Validacao local: 1024px navega por Clientes e Comandas sem F5; 1180px mostra menu; 1181px/1440px mostram sidebar desktop.
+
+## Tela preta na troca de rotas - 2026-07-05 00:22:57 -03:00
+- Bug real confirmado: .page-motion ficava com opacity 0 e translateY(-8px) apos navegacao SPA, deixando o miolo da tela preto apesar do DOM estar preenchido.
+- Causa: AnimatePresence mode="wait" no Outlet do AppShell.
+- Correcao: substituir a transicao Motion por div.page-motion comum com animacao CSS segura, cujo estado padrao e sempre visivel.
+- Validacao: Agenda, Clientes, Comandas, Orcamentos, Formulas, Estoque, Financeiro e Relatorios mantiveram opacity=1 apos cliques normais; cliques rapidos tambem passaram.
+- Builds: npm run build e npm run build:github passaram.
