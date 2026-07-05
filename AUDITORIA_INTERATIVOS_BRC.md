@@ -1,4 +1,4 @@
-﻿# Auditoria de Interativos - BRC BeautyOS
+# Auditoria de Interativos - BRC BeautyOS
 
 Data: 2026-07-04
 Escopo: paginas e componentes React em `src/`.
@@ -34,3 +34,17 @@ rg '<Button|<button|<Link|<NavLink|role="button"|onClick|to=|href=' src -n
 ```
 
 Resultado final: nao restaram botoes ou links inertes identificados. Itens sem `onClick` sao `type="submit"`, `disabled`, `Link/NavLink` com rota, ou recebem handler por props.
+
+## Rodada de navegador local - 2026-07-04 23:53:32 -03:00
+
+### Resultado
+
+- Suite guiada Chrome/Playwright: 31 fluxos, 0 falhas, 0 console warnings/errors, 0 page errors.
+- Pasta de evidencias local: qa-interaction-screenshots/scenario-final-2-2026-07-05T02-26-53-786Z/.
+- Varredura ampla: 228 interacoes; dois falsos positivos (Novo agendamento, Exportar visual) foram retestados isoladamente e funcionaram.
+
+### Correcoes aplicadas
+
+- IDs de toast ficaram deterministas com sequencia para eliminar colisao React.
+- useDemoAction passou a suportar multiplas acoes pendentes independentes.
+- Favicon BRC adicionado para remover 404 de deploy.

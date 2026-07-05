@@ -1,10 +1,10 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Role } from "../types";
 
 type ToastTone = "success" | "warning" | "danger" | "info";
 
 interface Toast {
-  id: number;
+  id: string;
   message: string;
   tone: ToastTone;
 }
@@ -25,6 +25,7 @@ const initialRole = (): Role => {
 export function AppProvider({ children }: { children: ReactNode }) {
   const [role, setRoleState] = useState<Role>(initialRole);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const toastSequenceRef = useRef(0);
 
   const setRole = useCallback((nextRole: Role) => {
     window.localStorage.setItem("brc-role", nextRole);
@@ -32,7 +33,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const showToast = useCallback((message: string, tone: ToastTone = "info") => {
-    const id = Date.now();
+    toastSequenceRef.current += 1;
+    const id = `${Date.now()}-${toastSequenceRef.current}`;
     setToasts((current) => [...current, { id, message, tone }]);
     window.setTimeout(() => {
       setToasts((current) => current.filter((toast) => toast.id !== id));

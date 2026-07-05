@@ -11,37 +11,52 @@ interface DemoActionOptions {
 
 export function useDemoAction() {
   const { showToast } = useAppContext();
-  const [pendingAction, setPendingAction] = useState<string | null>(null);
-  const timerRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
+  const [pendingActions, setPendingActions] = useState<Set<string>>(() => new Set());
+  const timersRef = useRef(new Map<string, ReturnType<typeof window.setTimeout>>());
 
   useEffect(
     () => () => {
-      if (timerRef.current) {
-        window.clearTimeout(timerRef.current);
-      }
+      timersRef.current.forEach((timer) => window.clearTimeout(timer));
+      timersRef.current.clear();
     },
     [],
   );
 
   const runDemoAction = useCallback(
     (action: string, message: string, options: DemoActionOptions = {}) => {
-      if (timerRef.current) {
-        window.clearTimeout(timerRef.current);
+      const existingTimer = timersRef.current.get(action);
+      if (existingTimer) {
+        window.clearTimeout(existingTimer);
       }
 
-      setPendingAction(action);
-      timerRef.current = window.setTimeout(() => {
-        setPendingAction(null);
+      setPendingActions((current) => {
+        const next = new Set(current);
+        next.add(action);
+        return next;
+      });
+
+      const timer = window.setTimeout(() => {
+        timersRef.current.delete(action);
+        setPendingActions((current) => {
+          const next = new Set(current);
+          next.delete(action);
+          return next;
+        });
         showToast(message, options.tone ?? "success");
         options.onComplete?.();
       }, options.delay ?? 520);
+
+      timersRef.current.set(action, timer);
     },
     [showToast],
   );
 
+  const isPending = useCallback((action: string) => pendingActions.has(action), [pendingActions]);
+  const pendingAction = pendingActions.values().next().value ?? null;
+
   return {
     pendingAction,
     runDemoAction,
-    isPending: (action: string) => pendingAction === action,
+    isPending,
   };
 }

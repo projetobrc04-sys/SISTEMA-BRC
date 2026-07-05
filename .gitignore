@@ -9,3 +9,5 @@ tsconfig.node.tsbuildinfo
 .DS_Store
 Thumbs.db
 .impeccable/live/sessions/
+qa-temp/
+qa-interaction-screenshots/

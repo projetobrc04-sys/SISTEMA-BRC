@@ -448,3 +448,67 @@ O usuario pediu uma rodada de refinamento visual para remover assinaturas reconh
 
 - Login e Apresentacao mantem linguagem de impacto porque sao excecoes autorizadas no briefing.
 - Pagamento, WhatsApp real, banco de dados real e autenticacao real seguem fora de escopo.
+
+## 2026-07-04 23:54:19 -03:00
+### Solicitacao recebida
+
+O usuario pediu teste completo do site no navegador local, com descoberta de bugs, botoes sem resposta, capturas antes/depois, correcao dos problemas encontrados e nova revisao antes de finalizar. Escopo mantido front-end only, sem backend, banco real, autenticacao real, pagamentos reais ou integracoes reais.
+
+### Skills aplicadas nesta secao
+
+- delivery-loop: ciclo autonomo de auditar, corrigir, retestar, documentar, commitar e subir.
+- impeccable: auditoria visual e checagem contra PRODUCT.md.
+- motion-framer: preservacao dos feedbacks de clique/loading/microinteracoes existentes.
+- vercel-react-best-practices: revisao das alteracoes de estado para evitar cancelamento e renderizacao problematica.
+
+### Bugs e riscos encontrados
+
+- Avisos duplicados podiam receber o mesmo key quando varios toasts eram disparados no mesmo milissegundo, gerando warning React em QA de navegador.
+- useDemoAction tinha um unico timer global por componente; ao clicar rapidamente em acoes diferentes, uma acao podia cancelar o feedback visual da outra, fazendo botao parecer sem resposta.
+- O deploy local apontava 404 de favicon em console/rede porque nao havia favicon declarado.
+- A varredura ampla de 228 interacoes marcou Novo agendamento e Exportar visual como suspeitos, mas os dois foram reproduzidos em teste isolado e passaram; a causa era contaminacao de estado/toast no runner amplo, nao bug do produto.
+
+### Melhorias feitas
+
+- src/state/AppContext.tsx: toasts agora usam ID string com sequencia local, eliminando colisao de key em disparos simultaneos.
+- src/hooks/useDemoAction.ts: acoes demo agora mantem multiplos estados pendentes independentes por chave de acao, sem cancelar cliques diferentes no mesmo modulo.
+- index.html e public/favicon.svg: adicionado favicon BRC para remover 404 visual/deploy.
+- .gitignore: adicionadas pastas locais de QA (qa-temp/ e qa-interaction-screenshots/) para manter prints brutos fora do historico Git e preservar deploy leve.
+
+### Prints e evidencias locais
+
+- Suite guiada final: qa-interaction-screenshots/scenario-final-2-2026-07-05T02-26-53-786Z/.
+- Relatorio da suite guiada: qa-interaction-screenshots/scenario-final-2-2026-07-05T02-26-53-786Z/scenario-report.json.
+- Resultado da suite guiada: 31 fluxos testados, 0 falhas, 0 console warnings/errors, 0 page errors.
+- Varredura ampla bruta: qa-interaction-screenshots/after-strict-final-2026-07-05T02-28-14-763Z/, com 228 interacoes testadas e 2 falsos positivos retestados manualmente.
+- Reteste isolado do estoque: qa-interaction-screenshots/stock-export-manual-before.png e qa-interaction-screenshots/stock-export-manual-after.png, confirmando loading e toast Relatorio visual de estoque preparado.
+
+### Fluxos cobertos no navegador local
+
+- Login por formulario e perfil rapido.
+- Dashboard: novo agendamento e busca global.
+- Agenda: novo agendamento, salvar modal, check-in, drawer de comanda e finalizar pagamento.
+- Clientes: nova cliente, salvar cliente, segmentacao de retorno e perfil da cliente.
+- Perfil da cliente: aba de historico tecnico e WhatsApp visual.
+- Comandas: abrir drawer e selecionar pagamento.
+- Orcamentos: aprovar cliente, novo calculo e calcular orcamento.
+- Estoque: exportar visual, filtro de criticos, novo item e salvar item.
+- Financeiro: gerar DRE visual.
+- Relatorios: atualizar periodo.
+- Permissoes: novo usuario e salvar usuario.
+- Configuracoes: salvar visualmente.
+- Apresentacao: iniciar demonstracao.
+- Agendamento online: fluxo completo ate confirmar reserva.
+- Mobile: menu lateral e ausencia de overflow horizontal no dashboard.
+
+### Validacoes realizadas
+
+- node .agents/skills/impeccable/scripts/detect.mjs --json src: retornou lista vazia.
+- npm run build: sucesso.
+- npm run build:github: sucesso.
+- Chrome/Playwright local: suite guiada final com failures vazio, consoleEvents vazio e pageErrors vazio.
+
+### Observacoes
+
+- A varredura ampla com reload completo por clique foi interrompida porque ficou longa/travada na cobertura de Agenda; nao foi usada como criterio final. O criterio final foi a suite guiada reproduzivel mais retestes isolados dos dois falsos positivos da varredura ampla.
+- Os prints brutos foram mantidos localmente e ignorados no Git para evitar adicionar aproximadamente 169 MB de imagens ao repositorio.
