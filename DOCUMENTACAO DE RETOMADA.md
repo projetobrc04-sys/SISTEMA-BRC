@@ -609,3 +609,17 @@ O usuario esclareceu que o bug principal nao era apenas o menu em breakpoint int
 - node .agents/skills/impeccable/scripts/detect.mjs --json src: retornou lista vazia.
 - npm run build: sucesso.
 - npm run build:github: sucesso.
+
+## 2026-07-05 00:26:40 -03:00
+
+### Validacao publica apos deploy
+
+- Commit publicado: 025b93e - Corrige tela preta na navegacao interna.
+- URL verificada: https://sistema-brc.vercel.app/?qa=025b93e#/dashboard.
+- Bundle publicado verificado: assets/index-mhkBmGl5.js.
+- Resultado: Dashboard renderizou com pageOpacity=1, transform zerado e sem estilo inline preso.
+- Rotas testadas no Vercel apos deploy: Agenda, Clientes, Comandas, Orcamentos, Formulas, Estoque, Financeiro e Relatorios.
+- Resultado das rotas: todas com texto preenchido, item ativo correto, pageOpacity=1, transform zerado e pageInlineStyle=null.
+- Cliques rapidos no Vercel tambem passaram: rota final Agenda visivel, pageOpacity=1 e texto preenchido.
+- Breakpoint 1024px no Vercel: sidebar desktop escondida, botao Abrir menu visivel e conteudo do Dashboard visivel.
+- Prints locais salvos em qa-route-blank/after-deploy-vercel-*.png.

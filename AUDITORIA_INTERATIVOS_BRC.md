@@ -67,3 +67,10 @@ Resultado final: nao restaram botoes ou links inertes identificados. Itens sem `
 - Correcao: substituir a transicao Motion por div.page-motion comum com animacao CSS segura, cujo estado padrao e sempre visivel.
 - Validacao: Agenda, Clientes, Comandas, Orcamentos, Formulas, Estoque, Financeiro e Relatorios mantiveram opacity=1 apos cliques normais; cliques rapidos tambem passaram.
 - Builds: npm run build e npm run build:github passaram.
+
+## Smoke publico da tela preta - 2026-07-05 00:26:40 -03:00
+
+- Commit publicado: 025b93e.
+- Vercel confirmou bundle assets/index-mhkBmGl5.js.
+- Agenda, Clientes, Comandas, Orcamentos, Formulas, Estoque, Financeiro e Relatorios passaram com opacity=1 e conteudo visivel.
+- Cliques rapidos e breakpoint 1024px tambem passaram.
