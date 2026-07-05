@@ -48,3 +48,9 @@ Resultado final: nao restaram botoes ou links inertes identificados. Itens sem `
 - IDs de toast ficaram deterministas com sequencia para eliminar colisao React.
 - useDemoAction passou a suportar multiplas acoes pendentes independentes.
 - Favicon BRC adicionado para remover 404 de deploy.
+
+## Smoke publico - 2026-07-04 23:56:51 -03:00
+
+- URL: https://sistema-brc.vercel.app/#/login.
+- Resultado: renderizacao confirmada no Chrome headless, texto BRC e botao Entrar no sistema presentes, sem console/page errors.
+- Print local: qa-interaction-screenshots/public-login-after-push.png.

@@ -512,3 +512,16 @@ O usuario pediu teste completo do site no navegador local, com descoberta de bug
 
 - A varredura ampla com reload completo por clique foi interrompida porque ficou longa/travada na cobertura de Agenda; nao foi usada como criterio final. O criterio final foi a suite guiada reproduzivel mais retestes isolados dos dois falsos positivos da varredura ampla.
 - Os prints brutos foram mantidos localmente e ignorados no Git para evitar adicionar aproximadamente 169 MB de imagens ao repositorio.
+
+## 2026-07-04 23:56:51 -03:00
+
+### Validacao publica apos push
+
+- Commit publicado: f9711d9 - Corrige feedback dos botoes e audita fluxos no navegador.
+- URL verificada: https://sistema-brc.vercel.app/#/login.
+- Resultado: HTTP 200, React renderizado, texto BRC presente, botao Entrar no sistema presente, consoleEvents vazio e pageErrors vazio.
+- Print local salvo em qa-interaction-screenshots/public-login-after-push.png.
+
+### Observacao
+
+- A Vercel esta entregando a tela de login publicada; nao reproduzi tela branca nesta checagem.
